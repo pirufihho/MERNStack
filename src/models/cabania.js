@@ -1,0 +1,11 @@
+const mongoose = require('mongoose');
+
+const {Schema} = mongoose;
+
+const CabaniaSchema = new Schema({
+    title: {type: String, required: true},
+    description: {type: String, required: true},
+    imgURI:{type:String,required:false}
+})
+
+module.exports = mongoose.model('Cabania',CabaniaSchema);
