@@ -5,6 +5,7 @@ import {
     Route,
     Link
   } from "react-router-dom";
+import ABMCabanias from './ABMCabanias';
 import CabaniasList from './CabaniasList';
 
 class AppCabania extends Component {
@@ -18,18 +19,19 @@ class AppCabania extends Component {
     render() {
         return (
             <Router>
-            <div>
-              <ul>
+            <div class="nav-wrapper">
+              <ul class="left hide-on-med-and-down">
                 <li>
                   <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="/about">Abm Cabanias</Link>
+                  <Link to="/abmCabanias">Abm Cabanias</Link>
                 </li>
                 <li>
-                  <Link to="/dashboard">Admin</Link>
+                  <Link to="/admin">Admin</Link>
                 </li>
               </ul>
+              </div>
       
               <hr />
       
@@ -41,15 +43,12 @@ class AppCabania extends Component {
                 of them to render at a time
               */}
               <Routes>
-              <Route path='/' element={<CabaniasList/>} />
-                {/* <Route path="/about">
-                  <About />
-                </Route>
-                <Route path="/dashboard">
+                <Route path='/' element={<CabaniasList/>} />
+                <Route path="/abmCabanias" element={<ABMCabanias/>} />
+                {/* <Route path="/dashboard">
                   <Dashboard />
                 </Route> */}
               </Routes>
-            </div>
           </Router>
               
         )

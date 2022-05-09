@@ -25,7 +25,9 @@ class CabaniasList extends Component {
     render() {
         return (
             <Fragment>
-                <h2>Cabanias List:</h2>
+                
+                    <h2>Cabanias lists</h2>
+                
                 {
                     this.state.cabanias.map(cab => {
                         return (
