@@ -13,11 +13,51 @@ class ABMCabanias extends Component {
                 cabanias:[]
         }
 
+        this.addTask = this.addTask.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
         this.fetchCabanias();
+    }
+
+    addTask(e) {
+        if (this.state._id) {
+            fetch('/api/cabanias/' + this.state._id, {
+                method: 'PUT',
+                body: JSON.stringify(this.state),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    M.toast({ html: data.status });
+                    this.setState({ title: '', description: '', _id: '' });
+                    this.fetchCabanias();
+                })
+        } else {
+
+            fetch('/api/cabanias', {
+                method: 'POST',
+                body: JSON.stringify(this.state),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => res.json())
+                .then(data => {
+                    M.toast({ html: data.status })
+                    this.setState({
+                        title: '',
+                        description: ''
+                    })
+                    this.fetchCabanias();
+                })
+                .catch(err => console.log(err))
+        }
+        e.preventDefault();
     }
 
     fetchCabanias() {
