@@ -17,7 +17,6 @@ class CabaniasList extends Component {
         fetch('/api/cabanias')
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 this.setState({ cabanias: data })
             });
     }
@@ -26,7 +25,7 @@ class CabaniasList extends Component {
         return (
             <Fragment>
                 
-                    <h2>Cabanias lists</h2>
+                    <h2 style={{ marginTop: '100px', marginLeft:'100px' }}>Cabanias lists</h2>
                 
                 {
                     this.state.cabanias.map(cab => {
@@ -42,9 +41,11 @@ class CabaniasList extends Component {
                                                 <div className='row'>
                                                     {cab.description}
                                                 </div>
-                                                <div className='row'>
+                                                {
+                                                    cab.imgURI != "" && <div className='row'>
                                                     <img src={cab.imgURI} alt={cab.title} />
                                                 </div>
+                                                }
                                             </div>
                                         </div>
                                     </div>

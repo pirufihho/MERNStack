@@ -21,6 +21,15 @@ class ABMCabanias extends Component {
         this.fetchCabanias();
     }
 
+    clearFields() {
+        this.setState({
+            title: '',
+            description: '',
+            imgURI:'',
+            _id: ''
+        })
+    }
+
     addTask(e) {
         if (this.state._id) {
             fetch('/api/cabanias/' + this.state._id, {
@@ -34,7 +43,7 @@ class ABMCabanias extends Component {
                 .then(res => res.json())
                 .then(data => {
                     M.toast({ html: data.status });
-                    this.setState({ title: '', description: '', _id: '' });
+                    this.clearFields();
                     this.fetchCabanias();
                 })
         } else {
@@ -49,10 +58,7 @@ class ABMCabanias extends Component {
             }).then(res => res.json())
                 .then(data => {
                     M.toast({ html: data.status })
-                    this.setState({
-                        title: '',
-                        description: ''
-                    })
+                    this.clearFields();
                     this.fetchCabanias();
                 })
                 .catch(err => console.log(err))
@@ -64,7 +70,6 @@ class ABMCabanias extends Component {
         fetch('/api/cabanias')
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 this.setState({ cabanias: data })
             });
     }
@@ -76,17 +81,47 @@ class ABMCabanias extends Component {
         })
     }
 
+    deleteCabania(id) {
+        if (confirm('Are you sure you want to delete it')) {
+            fetch('/api/cabanias/' + id, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    M.toast({ html: data.status });
+                    this.fetchCabanias();
+                })
+        }
+    }
+
+    editCabania(id) {
+        fetch('/api/cabanias/' + id)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({
+                    title: data.title,
+                    description: data.description,
+                    imgURI:data.imgURI,
+                    _id: data._id
+                })
+            })
+    }
+
     render() {
         return (
             <div>
                 {/* NAVIGATION */}
-                <nav className='light-blue darken-4'>
+                {/* <nav className='light-blue darken-4'>
                     <div className='container'>
                         <a className='brand-logo' href='/'>MERN Stack</a>
                     </div>
-                </nav>
+                </nav> */}
 
-                <div className='container'>
+                <div className='container' style={{ marginTop:'80px' }}>
                     <div className='row'>
                         <div className='col s5'>
                             <div className='card'>
@@ -139,11 +174,11 @@ class ABMCabanias extends Component {
                                                     <td>{cab.description}</td>
                                                     <td>{cab.imgURI}</td>
                                                     <td>
-                                                        <button className='btn light-blue darken-4' >
+                                                        <button className='btn light-blue darken-4' onClick={() => this.deleteCabania(cab._id)}>
                                                             <i className='material-icons'>delete
                                                             </i>
                                                         </button>
-                                                        <button className='btn light-blue darken-4' >
+                                                        <button className='btn light-blue darken-4' onClick={() => this.editCabania(cab._id)} >
                                                             <i className='material-icons'>edit
                                                             </i>
                                                         </button>
