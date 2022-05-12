@@ -19,7 +19,7 @@ class AppCabania extends Component {
     render() {
         return (
             <Router>
-            <div className="nav-wrapper">
+            <div className="nav-wrapper" style={{ height: '80px' }}>
               <ul className="left hide-on-med-and-down">
                 <li>
                   <Link to="/">Home</Link>
