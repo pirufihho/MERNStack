@@ -2,6 +2,15 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user')
 
+router.get('/login/:userName/:password', async (req,res) => {
+    const user = await User.where({userName: req.params.userName, password:req.params.password}).findOne();
+    if(user){
+        res.json({loggedIn: true});
+    } else {
+        res.json({loggedIn: false});
+    }
+})
+
 router.get('/', async (req,res) => {
     const users = await User.find();
     res.json(users);
