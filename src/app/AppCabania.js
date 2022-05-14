@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import service from '../services/user.service';
 import {
     BrowserRouter as Router,
     Routes,
@@ -7,6 +8,7 @@ import {
   } from "react-router-dom";
 import ABMCabanias from './ABMCabanias';
 import CabaniasList from './CabaniasList';
+import Login from './login'
 
 class AppCabania extends Component {
     constructor() {
@@ -15,6 +17,8 @@ class AppCabania extends Component {
 
         }
     }
+
+    componentDidMount(){}
 
     render() {
         return (
@@ -29,6 +33,9 @@ class AppCabania extends Component {
                 </li>
                 <li>
                   <Link to="/admin">Admin</Link>
+                </li>
+                <li>
+                  <Link to="/login">Login</Link>
                 </li>
               </ul>
               </div>
@@ -45,10 +52,11 @@ class AppCabania extends Component {
               <Routes>
                 <Route path='/' element={<CabaniasList/>} />
                 <Route path="/abmCabanias" element={<ABMCabanias/>} />
-                {/* <Route path="/dashboard">
-                  <Dashboard />
-                </Route> */}
+                <Route path='/login' element={<Login/>} />
               </Routes>
+                
+                                
+                
           </Router>
               
         )
