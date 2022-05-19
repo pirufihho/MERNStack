@@ -4,7 +4,7 @@ import service from '../services/user.service';
 
 
 class Login extends Component {
-    constructor() {
+    constructor(props) {
         super();
         this.state = {
                 userName:'',
@@ -19,10 +19,17 @@ class Login extends Component {
 
     }
 
+
     login(e){
         e.preventDefault();
         service.login(this.state.userName,this.state.password).then(response =>{
-            console.log(response);
+            //console.log(response);
+            if(response.loggedIn){
+                //handle login ok
+                window.location.replace("http://localhost:3000")
+            }else{
+                M.toast({ html: 'User / Password incorrect.' });
+            }
         })
     }
     handleChange(e){
