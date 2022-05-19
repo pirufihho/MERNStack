@@ -1,4 +1,10 @@
 import React, { Component, Fragment } from 'react';
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Link
+  } from "react-router-dom";
 
 
 class CabaniasList extends Component {
@@ -46,6 +52,14 @@ class CabaniasList extends Component {
                                                     <img src={cab.imgURI} alt={cab.title} />
                                                 </div>
                                                 }
+                                                <div>
+                                                   
+                                                        <Link to={"getCabania/"+cab._id}>Consult</Link>
+                                                   
+                                                {/* <button className='btn light-blue darken-4' >
+                                                            Consult
+                                                        </button> */}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

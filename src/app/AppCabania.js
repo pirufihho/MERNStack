@@ -9,6 +9,7 @@ import {
 import ABMCabanias from './ABMCabanias';
 import CabaniasList from './CabaniasList';
 import Login from './login'
+import GetCabania from './GetCabania';
 
 class AppCabania extends Component {
   constructor() {
@@ -60,20 +61,16 @@ class AppCabania extends Component {
         </div>
 
         <hr />
-
-        {/*
-                A <Switch> looks through all its children <Route>
-                elements and renders the first one whose path
-                matches the current URL. Use a <Switch> any time
-                you have multiple routes, but you want only one
-                of them to render at a time
-              */}
         <Routes>
           <Route path='/' element={<CabaniasList />} />
           {
             this.state.isLoggedIn && <Route path="/abmCabanias" element={<ABMCabanias />} />
           }
-          <Route path='/login' element={<Login />} />
+          {
+            !this.state.isLoggedIn && <Route path='/login' element={<Login />} />
+          }
+          <Route path="getCabania/:id" element={<GetCabania />} />
+          
         </Routes>
       </Router>
 
