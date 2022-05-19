@@ -4,7 +4,7 @@ import {
     Routes,
     Route,
     Link
-  } from "react-router-dom";
+} from "react-router-dom";
 
 
 class CabaniasList extends Component {
@@ -30,9 +30,7 @@ class CabaniasList extends Component {
     render() {
         return (
             <Fragment>
-                
-                    <h2 style={{ marginTop: '100px', marginLeft:'100px' }}>Cabanias lists</h2>
-                
+                <h2 style={{ marginTop: '100px', marginLeft: '100px' }}>Cabanias lists</h2>
                 {
                     this.state.cabanias.map(cab => {
                         return (
@@ -49,14 +47,14 @@ class CabaniasList extends Component {
                                                 </div>
                                                 {
                                                     cab.imgURI != "" && <div className='row'>
-                                                    <img src={cab.imgURI} alt={cab.title} />
-                                                </div>
+                                                        <img src={cab.imgURI} alt={cab.title} />
+                                                    </div>
                                                 }
                                                 <div>
-                                                   
-                                                        <Link to={"getCabania/"+cab._id}>Consult</Link>
-                                                   
-                                                {/* <button className='btn light-blue darken-4' >
+
+                                                    <Link to={"getCabania/" + cab._id}>Consult</Link>
+
+                                                    {/* <button className='btn light-blue darken-4' >
                                                             Consult
                                                         </button> */}
                                                 </div>

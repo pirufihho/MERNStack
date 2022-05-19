@@ -4,38 +4,61 @@ import {
     Routes,
     Route,
     Link,
-    useParams 
-  } from "react-router-dom";
+    useParams
+} from "react-router-dom";
 
-  function withParams(Component) {
+function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
-  }
+}
 
 class GetCabania extends Component {
     constructor() {
         super();
         this.state = {
-            cabanias: []
+            cabania: {},
+            id: ''
         }
     }
 
     componentDidMount() {
-        console.log(this.props.params.id);
+        this.setState({ id: this.props.params.id })
+        this.fetchCabaniaById(this.props.params.id);
     }
 
     fetchCabaniaById(id) {
-        fetch('/api/cabanias')
+        console.log(id)
+        fetch('/api/cabanias/' + id)
             .then(res => res.json())
             .then(data => {
-                this.setState({ cabanias: data })
+                this.setState({ cabania: data })
             });
     }
 
     render() {
         return (
             <Fragment>
-                    <h2 style={{ marginTop: '100px', marginLeft:'100px' }}>Title Cabania</h2>
-                
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col s-6'>
+                            <div className='card'>
+                                <div className='card-content' >
+                                    <div className='row'>
+                                        <h4>{this.state.cabania.title}</h4>
+                                    </div>
+                                    <div className='row'>
+                                        {this.state.cabania.description}
+                                    </div>
+                                    {
+                                        this.state.cabania.imgURI != "" && <div className='row'>
+                                            <img src={this.state.cabania.imgURI} alt={this.state.cabania.title} />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </Fragment>
         )
     }
