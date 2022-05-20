@@ -53,6 +53,16 @@ class GetCabania extends Component {
                                             <img src={this.state.cabania.imgURI} alt={this.state.cabania.title} />
                                         </div>
                                     }
+                                    <div className='row'>
+                                        <button className='btn light-blue darken-4' >
+                                                            <i className='material-icons'>call
+                                                            </i>
+                                        </button>
+                                        <button className='btn light-blue darken-4' >
+                                                            <i className='material-icons'>mail
+                                                            </i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

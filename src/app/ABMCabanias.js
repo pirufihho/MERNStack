@@ -10,6 +10,8 @@ class ABMCabanias extends Component {
                 description:'',
                 imgURI:'',
                 _id:'',
+                mail:'',
+                phone:'',
                 cabanias:[]
         }
 
@@ -26,7 +28,9 @@ class ABMCabanias extends Component {
             title: '',
             description: '',
             imgURI:'',
-            _id: ''
+            _id: '',
+            mail:'',
+            phone:''
         })
     }
 
@@ -106,7 +110,9 @@ class ABMCabanias extends Component {
                     title: data.title,
                     description: data.description,
                     imgURI:data.imgURI,
-                    _id: data._id
+                    _id: data._id,
+                    mail: data.mail ? data.mail : '',
+                    phone: data.phone ? data.phone : ''
                 })
             })
     }
@@ -141,6 +147,16 @@ class ABMCabanias extends Component {
                                         <div className='row'>
                                             <div className='input-field col s12'>
                                                 <input name="imgURI" onChange={this.handleChange} type="text" placeholder='Img URI' value={this.state.imgURI} />
+                                            </div>
+                                        </div>
+                                        <div className='row'>
+                                            <div className='input-field col s12'>
+                                                <input name="mail" onChange={this.handleChange} type="text" placeholder='Mail' value={this.state.mail} />
+                                            </div>
+                                        </div>
+                                        <div className='row'>
+                                            <div className='input-field col s12'>
+                                                <input name="phone" onChange={this.handleChange} type="text" placeholder='Phone' value={this.state.phone} />
                                             </div>
                                         </div>
                                         <button type="submit" className='btn light-blue darken-4'>
