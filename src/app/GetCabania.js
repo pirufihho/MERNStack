@@ -16,13 +16,15 @@ class GetCabania extends Component {
         super();
         this.state = {
             cabania: {},
-            id: ''
+            id: '',
+            mailTo:''
         }
     }
 
     componentDidMount() {
         this.setState({ id: this.props.params.id })
         this.fetchCabaniaById(this.props.params.id);
+        
     }
 
     fetchCabaniaById(id) {
@@ -31,8 +33,10 @@ class GetCabania extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({ cabania: data })
+                this.setState({mailTo:'mailto:'+data.mail})
             });
     }
+    
 
     render() {
         return (
@@ -58,10 +62,10 @@ class GetCabania extends Component {
                                                             <i className='material-icons'>call
                                                             </i>
                                         </button>
-                                        <button className='btn light-blue darken-4' >
-                                                            <i className='material-icons'>mail
-                                                            </i>
-                                        </button>
+
+                                        <a className='btn light-blue darken-4' href={this.state.mailTo}>
+                                            <i className='material-icons'>mail
+                                                            </i></a>
                                     </div>
                                 </div>
                             </div>
