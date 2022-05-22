@@ -1,0 +1,22 @@
+li {
+    float: left ;
+    padding-left: 20px;
+}
+
+.navWrapperHeight{
+    height: 50px;
+}
+
+.marginLeft{
+    margin-left: 20px;
+}
+
+.initalMargin{
+    margin-top: 80px;
+    margin-left: 100px;
+}
+
+/* .style{
+    float: left !important;
+    padding-left: 20px !important;
+} */

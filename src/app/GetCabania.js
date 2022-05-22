@@ -17,7 +17,8 @@ class GetCabania extends Component {
         this.state = {
             cabania: {},
             id: '',
-            mailTo:''
+            mailTo:'',
+            whatsapp:''
         }
     }
 
@@ -34,6 +35,7 @@ class GetCabania extends Component {
             .then(data => {
                 this.setState({ cabania: data })
                 this.setState({mailTo:'mailto:'+data.mail})
+                this.setState({whatsapp:'https://wa.me/'+data.phone})
             });
     }
     
@@ -58,12 +60,18 @@ class GetCabania extends Component {
                                         </div>
                                     }
                                     <div className='row'>
-                                        <button className='btn light-blue darken-4' >
+                                        Phone Number: <b>{this.state.cabania.phone}</b> 
+                                    </div>
+                                    <div className='row'>
+                                        E-Mail: <b>{this.state.cabania.mail}</b> 
+                                    </div>
+                                    <div className='row'>
+                                        <a href={this.state.whatsapp} className='btn light-blue darken-4' >
                                                             <i className='material-icons'>call
                                                             </i>
-                                        </button>
+                                        </a>
 
-                                        <a className='btn light-blue darken-4' href={this.state.mailTo}>
+                                        <a className='btn light-blue darken-4 marginLeft' href={this.state.mailTo}>
                                             <i className='material-icons'>mail
                                                             </i></a>
                                     </div>

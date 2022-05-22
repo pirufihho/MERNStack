@@ -30,7 +30,7 @@ class CabaniasList extends Component {
     render() {
         return (
             <Fragment>
-                <h2 style={{ marginTop: '100px', marginLeft: '100px' }}>Cabanias lists</h2>
+                <h2 className='initalMargin'>Cabanias lists</h2>
                 {
                     this.state.cabanias.map(cab => {
                         return (

@@ -19,7 +19,7 @@ app.use('/api/cabanias',require('./routes/cabania.routes'))
 app.use('/api/users',require('./routes/user.routes'))
 
 //Static files
-app.use(express.static(path.join(__dirname,'/public')))
+app.use(express.static(path.join(__dirname,'/public/')))
 
 //Starting the server
 app.listen(app.get('port'), () => {

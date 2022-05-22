@@ -33,9 +33,9 @@ class AppCabania extends Component {
   render() {
     return (
       <Router>
-        <div className="nav-wrapper" style={{ height: '80px' }}>
+        <div className="nav-wrapper black navWrapperHeight">
           <ul className="left hide-on-med-and-down">
-            <li>
+            <li className='style'>
               <Link to="/">Home</Link>
             </li>
             {
@@ -60,7 +60,7 @@ class AppCabania extends Component {
           </ul>
         </div>
 
-        <hr />
+        
         <Routes>
           <Route path='/' element={<CabaniasList />} />
           {
