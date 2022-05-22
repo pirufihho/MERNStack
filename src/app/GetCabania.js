@@ -7,6 +7,7 @@ import {
     useParams
 } from "react-router-dom";
 
+//function wrapper to retrive params from uri
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
 }
