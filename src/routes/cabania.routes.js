@@ -13,21 +13,23 @@ router.get('/:id', async (req,res) => {
 })
 
 router.post('/', async (req,res) => {
-    const {title,description,imgURI,mail,phone} = req.body
+    const {title,description,imgURI,mail,phone,province,city} = req.body
     const cabania = new Cabania ({
         title: title,
         description: description,
         imgURI: imgURI,
         mail: mail,
-        phone: phone
+        phone: phone,
+        province:province,
+        city:city
     })
     await cabania.save();
     res.json({status:'Cabania saved'});
 })
 
 router.put('/:id', async (req, res) => {
-    const {title,description,imgURI,mail,phone} = req.body;
-    const newCabania = {title,description,imgURI,mail,phone};
+    const {title,description,imgURI,mail,phone,province,city} = req.body;
+    const newCabania = {title,description,imgURI,mail,phone,province,city};
     await Cabania.findByIdAndUpdate(req.params.id,newCabania);
     res.json({status: 'Cabania updated'})
 })

@@ -6,17 +6,26 @@ class ABMCabanias extends Component {
     constructor() {
         super();
         this.state = {
+            title: '',
+            description: '',
+            imgURI: '',
+            _id: '',
+            mail: '',
+            phone: '',
+            province: '',
+            city: '',
+            cabanias: [],
+            filters: {
                 title: '',
-                description:'',
-                imgURI:'',
-                _id:'',
-                mail:'',
-                phone:'',
-                cabanias:[]
+                description: '',
+                id: ''
+            },
+            toggleFilters: true
         }
 
         this.addTask = this.addTask.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeFilters = this.handleChangeFilters.bind(this);
     }
 
     componentDidMount() {
@@ -27,10 +36,12 @@ class ABMCabanias extends Component {
         this.setState({
             title: '',
             description: '',
-            imgURI:'',
+            imgURI: '',
             _id: '',
-            mail:'',
-            phone:''
+            mail: '',
+            phone: '',
+            province: '',
+            city: ''
         })
     }
 
@@ -81,8 +92,19 @@ class ABMCabanias extends Component {
     handleChange(e) {
         const { name, value } = e.target;
         this.setState({
-                [name]:value
+            [name]: value
         })
+    }
+
+    handleChangeFilters(e) {
+        const { name, value } = e.target;
+
+        this.setState(prevState => ({
+            filters: {                   // object that we want to update
+                ...prevState.filters,    // keep all other key-value pairs
+                [name]: value           // update the value of specific key
+            }
+        }))
     }
 
     deleteCabania(id) {
@@ -109,12 +131,18 @@ class ABMCabanias extends Component {
                 this.setState({
                     title: data.title,
                     description: data.description,
-                    imgURI:data.imgURI,
+                    imgURI: data.imgURI,
                     _id: data._id,
                     mail: data.mail ? data.mail : '',
-                    phone: data.phone ? data.phone : ''
+                    phone: data.phone ? data.phone : '',
+                    province: data.province ? data.province : '',
+                    city: data.city ? data.city : ''
                 })
             })
+    }
+
+    search() {
+        console.log(this.state.filters)
     }
 
     render() {
@@ -127,36 +155,46 @@ class ABMCabanias extends Component {
                     </div>
                 </nav> */}
 
-                <div className='container' style={{ marginTop:'80px' }}>
+                <div className='container' style={{ marginTop: '80px' }}>
                     <div className='row'>
                         <div className='col s5'>
                             <div className='card'>
                                 <div className='card-content'>
                                     <form onSubmit={this.addTask}>
-                                        <div className='row'>
+                                        <div className='row rowMargin'>
                                             <div className='input-field col s12'>
-                                                <input name="title" onChange={this.handleChange} type="text" placeholder='Task title' value={this.state.title} />
+                                                <input className='inputHeight' name="title" onChange={this.handleChange} type="text" placeholder='Title' value={this.state.title} />
                                             </div>
                                         </div>
-                                        <div className='row'>
+                                        <div className='row rowMargin'>
                                             <div className='input-field col s12'>
-                                                <textarea name="description" onChange={this.handleChange} className='materialize-textarea' 
-                                                placeholder='Task description' value={this.state.description} />
+                                                <textarea name="description" onChange={this.handleChange} className='materialize-textarea inputHeight'
+                                                    placeholder='Description' value={this.state.description} />
                                             </div>
                                         </div>
-                                        <div className='row'>
+                                        <div className='row rowMargin'>
                                             <div className='input-field col s12'>
-                                                <input name="imgURI" onChange={this.handleChange} type="text" placeholder='Img URI' value={this.state.imgURI} />
+                                                <input className='inputHeight' name="imgURI" onChange={this.handleChange} type="text" placeholder='Img URI' value={this.state.imgURI} />
                                             </div>
                                         </div>
-                                        <div className='row'>
+                                        <div className='row rowMargin'>
                                             <div className='input-field col s12'>
-                                                <input name="mail" onChange={this.handleChange} type="text" placeholder='Mail' value={this.state.mail} />
+                                                <input className='inputHeight' name="mail" onChange={this.handleChange} type="text" placeholder='Mail' value={this.state.mail} />
                                             </div>
                                         </div>
-                                        <div className='row'>
+                                        <div className='row rowMargin'>
                                             <div className='input-field col s12'>
-                                                <input name="phone" onChange={this.handleChange} type="text" placeholder='Phone' value={this.state.phone} />
+                                                <input className='inputHeight' name="phone" onChange={this.handleChange} type="text" placeholder='Phone' value={this.state.phone} />
+                                            </div>
+                                        </div>
+                                        <div className='row rowMargin'>
+                                            <div className='input-field col s12'>
+                                                <input className='inputHeight' name="province" onChange={this.handleChange} type="text" placeholder='Province' value={this.state.province} />
+                                            </div>
+                                        </div>
+                                        <div className='row rowMargin'>
+                                            <div className='input-field col s12'>
+                                                <input className='inputHeight' name="city" onChange={this.handleChange} type="text" placeholder='City' value={this.state.city} />
                                             </div>
                                         </div>
                                         <button type="submit" className='btn light-blue darken-4'>
@@ -167,17 +205,49 @@ class ABMCabanias extends Component {
                             </div>
                         </div>
                         <div className='col s7'>
+
+                            <div className='card'>
+                                <div className='card-content'>
+                                    <div className='row'>
+                                        <div className='col s10'>
+                                            <h5>Filters</h5>
+                                        </div>
+                                        <div className='col s2'>
+                                            <button className='btn' onClick={ () => this.setState({toggleFilters: !this.state.toggleFilters}) } >
+                                                <i className='material-icons'>unfold_more
+                                                </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {this.state.toggleFilters && <div className='row' >
+                                        <div className='input-field col s6'>
+                                            <input className='inputHeight' name="id" type="text" placeholder='Id' onChange={this.handleChangeFilters} value={this.state.filters.id} />
+                                        </div>
+                                        <div className='input-field col s6'>
+                                            <input className='inputHeight' name="title" type="text" placeholder='Title' onChange={this.handleChangeFilters} value={this.state.filters.title} />
+                                        </div>
+                                        <div className='input-field col s6'>
+                                            <input className='inputHeight' name="description" type="text" placeholder='Description' onChange={this.handleChangeFilters} value={this.state.filters.description} />
+                                        </div>
+                                        <div className='input-field col s12'>
+                                            <button className='btn light-blue darken-4' onClick={() => this.search()}>
+                                                Search
+                                            </button>
+                                        </div>
+                                    </div>}
+                                </div>
+                            </div>
                             <table>
                                 <thead>
                                     <tr>
+                                        <th>
+                                            Id
+                                        </th>
                                         <th>
                                             Title
                                         </th>
                                         <th>
                                             Description
-                                        </th>
-                                        <th>
-                                            Img URI
                                         </th>
                                     </tr>
                                 </thead>
@@ -186,9 +256,9 @@ class ABMCabanias extends Component {
                                         this.state.cabanias.map(cab => {
                                             return (
                                                 <tr key={cab._id}>
+                                                    <td>{cab._id}</td>
                                                     <td>{cab.title}</td>
                                                     <td>{cab.description}</td>
-                                                    <td>{cab.imgURI}</td>
                                                     <td>
                                                         <button className='btn light-blue darken-4' onClick={() => this.deleteCabania(cab._id)}>
                                                             <i className='material-icons'>delete

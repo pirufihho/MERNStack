@@ -3,6 +3,10 @@ li {
     padding-left: 20px;
 }
 
+.rowMargin {
+    margin-bottom: 0px !important;
+}
+
 .navWrapperHeight{
     height: 50px;
 }
@@ -14,6 +18,10 @@ li {
 .initalMargin{
     margin-top: 80px;
     margin-left: 100px;
+}
+
+.inputHeight{
+    height: 20px !important;
 }
 
 /* .style{
