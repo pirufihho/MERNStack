@@ -15,6 +15,7 @@ class ABMCabanias extends Component {
             province: '',
             city: '',
             cabanias: [],
+            cabaniasFiltered:[],
             filters: {
                 title: '',
                 description: '',
@@ -86,6 +87,7 @@ class ABMCabanias extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({ cabanias: data })
+                this.setState({cabaniasFiltered:data})  
             });
     }
 
@@ -142,7 +144,21 @@ class ABMCabanias extends Component {
     }
 
     search() {
-        console.log(this.state.filters)
+        this.state.cabaniasFiltered = this.state.cabanias
+        let {id,title,description} = this.state.filters
+
+        if(id){
+            let {id} = this.state.filters
+            this.state.cabaniasFiltered = this.state.cabaniasFiltered.filter(function (x) { return x._id.includes(id); })
+        }
+        if(title){
+            let {title} = this.state.filters
+            this.state.cabaniasFiltered = this.state.cabaniasFiltered.filter(function (x) { return x.title.includes(title); })
+        }
+        if(description){
+            this.state.cabaniasFiltered = this.state.cabaniasFiltered.filter(function (x) { return x.description.includes(description); })
+        }
+        this.setState({cabaniasFiltered: this.state.cabaniasFiltered})
     }
 
     render() {
@@ -253,7 +269,7 @@ class ABMCabanias extends Component {
                                 </thead>
                                 <tbody>
                                     {
-                                        this.state.cabanias.map(cab => {
+                                        this.state.cabaniasFiltered.map(cab => {
                                             return (
                                                 <tr key={cab._id}>
                                                     <td>{cab._id}</td>
