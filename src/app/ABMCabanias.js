@@ -161,6 +161,18 @@ class ABMCabanias extends Component {
         this.setState({cabaniasFiltered: this.state.cabaniasFiltered})
     }
 
+    clearFilters(){
+        this.setState(prevState => ({
+            filters: {                   
+                ...prevState.filters,    
+                id: '',
+                title:'',
+                description:''
+                           
+            }
+        }))
+    }
+
     render() {
         return (
             <div>
@@ -237,17 +249,22 @@ class ABMCabanias extends Component {
                                     </div>
                                     {this.state.toggleFilters && <div className='row' >
                                         <div className='input-field col s6'>
-                                            <input className='inputHeight' name="id" type="text" placeholder='Id' onChange={this.handleChangeFilters} value={this.state.filters.id} />
+                                            <input className='inputHeight' name="id" type="text" placeholder='Id' onChange={this.handleChangeFilters} value={this.state.filters.id|| ''} />
                                         </div>
                                         <div className='input-field col s6'>
-                                            <input className='inputHeight' name="title" type="text" placeholder='Title' onChange={this.handleChangeFilters} value={this.state.filters.title} />
+                                            <input className='inputHeight' name="title" type="text" placeholder='Title' onChange={this.handleChangeFilters} value={this.state.filters.title|| ''} />
                                         </div>
                                         <div className='input-field col s6'>
-                                            <input className='inputHeight' name="description" type="text" placeholder='Description' onChange={this.handleChangeFilters} value={this.state.filters.description} />
+                                            <input className='inputHeight' name="description" type="text" placeholder='Description' onChange={this.handleChangeFilters} value={this.state.filters.description|| ''} />
                                         </div>
-                                        <div className='input-field col s12'>
+                                        <div className='input-field col s2'>
                                             <button className='btn light-blue darken-4' onClick={() => this.search()}>
                                                 Search
+                                            </button>
+                                        </div>
+                                        <div className='input-field col s2'>
+                                            <button className='btn light-blue darken-4' onClick={() => this.clearFilters()}>
+                                                ClearFilters
                                             </button>
                                         </div>
                                     </div>}
