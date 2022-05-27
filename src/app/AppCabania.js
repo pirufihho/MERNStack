@@ -24,6 +24,7 @@ class AppCabania extends Component {
   componentDidMount() {
     this.setState({ isLoggedIn: service.isUserLoged() });
     this.setState({adminUser: service.isAdminUser()});
+    // this.applyWidthUser();
   }
 
   logout() {
@@ -32,10 +33,19 @@ class AppCabania extends Component {
     this.setState({adminUser: service.isAdminUser()});
   }
 
+  // applyWidthUser(){
+  //     let navBarWidth = document.getElementById("navBar").offsetWidth;
+  //     console.log(navBarWidth);
+
+  //     let user = document.getElementById("User");
+  //     var newWidth = navBarWidth - (navBarWidth * 0.3);
+  //     user.style.setProperty('margin-left', `${newWidth}px`);
+  // }
+
   render() {
     return (
       <Router>
-        <div className="nav-wrapper black navWrapperHeight">
+        <div id="navBar" className="nav-wrapper black navWrapperHeight">
           <ul className="left hide-on-med-and-down">
             <li className='style'>
               <Link to="/">Home</Link>
@@ -54,7 +64,7 @@ class AppCabania extends Component {
               <Link to="/login">Login</Link>
             </li>}
             {
-              this.state.isLoggedIn && <li>
+              this.state.isLoggedIn && <li id="User">
                 <a href='/' onClick={this.logout}>Logout</a>
               </li>
             }
