@@ -5,7 +5,7 @@ const User = require('../models/user')
 router.get('/login/:userName/:password', async (req,res) => {
     const user = await User.where({userName: req.params.userName, password:req.params.password}).findOne();
     if(user){
-        res.json({loggedIn: true});
+        res.json({loggedIn: true,adminUser:user.adminUser});
     } else {
         res.json({loggedIn: false});
     }
@@ -22,20 +22,21 @@ router.get('/:id', async (req,res) => {
 })
 
 router.post('/', async (req,res) => {
-    const {name,lastName,userName,password} = req.body
+    const {name,lastName,userName,password,adminUser} = req.body
     const user = new User ({
         name: name,
         lastName: lastName,
         userName: userName,
-        password: password
+        password: password,
+        adminUser:adminUser
     })
     await user.save();
     res.json({status:'User saved'});
 })
 
 router.put('/:id', async (req, res) => {
-    const {name,lastName,userName,password} = req.body;
-    const newUser = {name,lastName,userName,password};
+    const {name,lastName,userName,password,adminUser} = req.body;
+    const newUser = {name,lastName,userName,password,adminUser};
     await User.findByIdAndUpdate(req.params.id,newUser);
     res.json({status: 'User updated'})
 })

@@ -8,7 +8,7 @@ const service = {
             .then(res => res.json())
             .then(data =>{
                 if(data.loggedIn){
-                    localStorage.setItem('logedUser', JSON.stringify(data.loggedIn))
+                    localStorage.setItem('logedUser', JSON.stringify({loggedIn:data.loggedIn,adminUser:data.adminUser}))
                 } else{
                     localStorage.removeItem('logedUser')
                 }
@@ -19,13 +19,20 @@ const service = {
     },
 
     isUserLoged : () => {
-        var getLogged = localStorage.getItem('logedUser');
-        return localStorage.getItem('logedUser') !== null && localStorage.getItem('logedUser')
+        var getLogged = JSON.parse(localStorage.getItem('logedUser'));
+
+        return localStorage.getItem('logedUser') !== null && getLogged && getLogged.loggedIn
+    },
+
+    isAdminUser : () => {
+        var getLogged = JSON.parse(localStorage.getItem('logedUser'));
+
+        return localStorage.getItem('logedUser') !== null && getLogged && getLogged.adminUser
     },
     
     logout : () => {
         localStorage.removeItem('logedUser')
-    },
+    }
 }
 
 export default service;

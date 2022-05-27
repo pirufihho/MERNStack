@@ -23,11 +23,13 @@ class AppCabania extends Component {
 
   componentDidMount() {
     this.setState({ isLoggedIn: service.isUserLoged() });
+    this.setState({adminUser: service.isAdminUser()});
   }
 
   logout() {
     service.logout();
-    this.setState({ isLoggedIn: service.isUserLoged() })
+    this.setState({ isLoggedIn: service.isUserLoged() });
+    this.setState({adminUser: service.isAdminUser()});
   }
 
   render() {
@@ -39,13 +41,13 @@ class AppCabania extends Component {
               <Link to="/">Home</Link>
             </li>
             {
-              this.state.isLoggedIn && <li>
+              this.state.isLoggedIn && this.state.adminUser && <li>
                 <Link to="/abmCabanias">Abm Cabanias</Link>
               </li>
             }
             {
               this.state.isLoggedIn && <li>
-              <Link to="/admin">Admin</Link>
+              <Link to="/favorites">Favorites</Link>
             </li>}
             {
               !this.state.isLoggedIn && <li>
@@ -64,7 +66,7 @@ class AppCabania extends Component {
         <Routes>
           <Route path='/' element={<CabaniasList />} />
           {
-            this.state.isLoggedIn && <Route path="/abmCabanias" element={<ABMCabanias />} />
+            this.state.isLoggedIn && this.state.adminUser && <Route path="/abmCabanias" element={<ABMCabanias />} />
           }
           {
             !this.state.isLoggedIn && <Route path='/login' element={<Login />} />
