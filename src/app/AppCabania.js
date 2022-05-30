@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useRef, useEffect, useState } from 'react';
 import service from '../services/user.service';
 import {
   BrowserRouter as Router,
@@ -11,83 +11,72 @@ import CabaniasList from './CabaniasList';
 import Login from './login'
 import GetCabania from './GetCabania';
 
-class AppCabania extends Component {
-  constructor() {
-    super();
-    this.state = {
-      isLoggedIn: false
+function AppCabania() {
+  const ref = useRef(null);
+  const [isLoggedIn, setLoggedIn] = useState(service.isUserLoged());
+  const [adminUser, setAdminUser] = useState(service.isAdminUser());
+
+  useEffect(() => {
+    if (ref.current) {
+      applyWidthUser(ref.current);
     }
+  }, []);
 
-    this.logout = this.logout.bind(this);
+  function applyWidthUser(ref) {
+    let navBarWidth = document.getElementById("navBar").offsetWidth;
+    ref.style.setProperty('margin-left', `${navBarWidth - (navBarWidth * 0.3)}px`);
   }
 
-  componentDidMount() {
-    this.setState({ isLoggedIn: service.isUserLoged() });
-    this.setState({adminUser: service.isAdminUser()});
-    // this.applyWidthUser();
-  }
-
-  logout() {
+  function logout() {
     service.logout();
-    this.setState({ isLoggedIn: service.isUserLoged() });
-    this.setState({adminUser: service.isAdminUser()});
+    setLoggedIn(service.isUserLoged());
+    setAdminUser(service.isAdminUser());
   }
 
-  // applyWidthUser(){
-  //     let navBarWidth = document.getElementById("navBar").offsetWidth;
-  //     console.log(navBarWidth);
-
-  //     let user = document.getElementById("User");
-  //     var newWidth = navBarWidth - (navBarWidth * 0.3);
-  //     user.style.setProperty('margin-left', `${newWidth}px`);
-  // }
-
-  render() {
-    return (
-      <Router>
-        <div id="navBar" className="nav-wrapper black navWrapperHeight">
-          <ul className="left hide-on-med-and-down">
-            <li className='style'>
-              <Link to="/">Home</Link>
+  return (
+    <Router>
+      <div id="navBar" className="nav-wrapper black navWrapperHeight">
+        <ul className="left hide-on-med-and-down">
+          <li className='style'>
+            <Link to="/">Home</Link>
+          </li>
+          {
+            isLoggedIn && adminUser && <li>
+              <Link to="/abmCabanias">Abm Cabanias</Link>
             </li>
-            {
-              this.state.isLoggedIn && this.state.adminUser && <li>
-                <Link to="/abmCabanias">Abm Cabanias</Link>
-              </li>
-            }
-            {
-              this.state.isLoggedIn && <li>
+          }
+          {
+            isLoggedIn && <li>
               <Link to="/favorites">Favorites</Link>
             </li>}
-            {
-              !this.state.isLoggedIn && <li>
+          {
+            !isLoggedIn && <li>
               <Link to="/login">Login</Link>
             </li>}
-            {
-              this.state.isLoggedIn && <li id="User">
-                <a href='/' onClick={this.logout}>Logout</a>
-              </li>
-            }
-
-          </ul>
-        </div>
-
-        
-        <Routes>
-          <Route path='/' element={<CabaniasList />} />
           {
-            this.state.isLoggedIn && this.state.adminUser && <Route path="/abmCabanias" element={<ABMCabanias />} />
+            isLoggedIn && <li id="User" ref={ref}>
+              <a href='/' onClick={logout}>Logout</a>
+            </li>
           }
-          {
-            !this.state.isLoggedIn && <Route path='/login' element={<Login />} />
-          }
-          <Route path="getCabania/:id" element={<GetCabania />} />
-          
-        </Routes>
-      </Router>
 
-    )
-  }
+        </ul>
+      </div>
+
+
+      <Routes>
+        <Route path='/' element={<CabaniasList />} />
+        {
+          isLoggedIn && adminUser && <Route path="/abmCabanias" element={<ABMCabanias />} />
+        }
+        {
+          !isLoggedIn && <Route path='/login' element={<Login />} />
+        }
+        <Route path="getCabania/:id" element={<GetCabania />} />
+
+      </Routes>
+    </Router>
+
+  )
 }
 
 export default AppCabania;
