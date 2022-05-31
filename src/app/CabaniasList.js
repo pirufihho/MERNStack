@@ -58,6 +58,12 @@ class CabaniasList extends Component {
                                                             Consult
                                                         </button> */}
                                                 </div>
+                                                <div>
+                                                <button className='btn light-blue darken-4' onClick={ () => this.setState({toggleFilters: !this.state.toggleFilters}) } >
+                                                     <i className='material-icons'>favorite
+                                                     </i>
+                                                         </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
