@@ -5,7 +5,7 @@ const User = require('../models/user')
 router.get('/login/:userName/:password', async (req,res) => {
     const user = await User.where({userName: req.params.userName, password:req.params.password}).findOne();
     if(user){
-        res.json({loggedIn: true,adminUser:user.adminUser});
+        res.json({loggedIn: true,adminUser:user.adminUser,userId:user._id});
     } else {
         res.json({loggedIn: false});
     }

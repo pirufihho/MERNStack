@@ -5,6 +5,7 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import service from '../services/user.service';
 
 
 class CabaniasList extends Component {
@@ -25,6 +26,23 @@ class CabaniasList extends Component {
             .then(data => {
                 this.setState({ cabanias: data })
             });
+    }
+
+    saveFavorite(id) {
+        fetch('/api/favorites', {
+            method: 'POST',
+            body: JSON.stringify({userId:service.getUserId(),cabaniaId:id}),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(data => {
+                M.toast({ html: data.status })
+                //this.clearFields();
+                //this.fetchCabanias();
+            })
+            .catch(err => console.log(err))
     }
 
     render() {
@@ -59,7 +77,7 @@ class CabaniasList extends Component {
                                                         </button> */}
                                                 </div>
                                                 <div>
-                                                <button className='btn light-blue darken-4' onClick={ () => this.setState({toggleFilters: !this.state.toggleFilters}) } >
+                                                <button className='btn light-blue darken-4' onClick={ () => this.saveFavorite(cab._id) } >
                                                      <i className='material-icons'>favorite
                                                      </i>
                                                          </button>
