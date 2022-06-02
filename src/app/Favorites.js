@@ -10,6 +10,7 @@ import ABMCabanias from './ABMCabanias';
 import CabaniasList from './CabaniasList';
 import Login from './login'
 import GetCabania from './GetCabania';
+import RenderCabania from './RenderCabania';
 
 function Favorites() {
   const ref = useRef(null);
@@ -36,14 +37,6 @@ function Favorites() {
     function getCabanias(fav){
         let tempCabanias = [];
         if(fav){
-            // fav.forEach(f => {
-            // fetch('/api/cabanias/' + f.cabaniaId)
-            //     .then(res => res.json())
-            //     .then(data => {
-            //         tempCabanias.push(data);
-            //         //setCabanias(tempCabanias);
-            //     }); 
-            // })
             for(const item of fav){
                            fetch('/api/cabanias/' + item.cabaniaId)
                 .then(res => res.json())
@@ -64,9 +57,9 @@ function Favorites() {
     
     {
         cabanias.map(c => {
-            return (<div key={c._id}>
-                {c.title}
-            </div>) 
+            return (
+                <RenderCabania cabania={c}></RenderCabania>
+            ) 
         })
     }
     </Fragment>

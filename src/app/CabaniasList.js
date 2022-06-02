@@ -65,7 +65,7 @@ class CabaniasList extends Component {
                                                 </div>
                                                 {
                                                     cab.imgURI != "" && <div className='row'>
-                                                        <img src={cab.imgURI} alt={cab.title} />
+                                                        <img className='imgCabania' src={cab.imgURI} alt={cab.title} />
                                                     </div>
                                                 }
                                                 <div>
