@@ -12,7 +12,16 @@ import {
 //     return props => <Component {...props} params={useParams()} />;
 // }
 
+function mailTo(mail){
+    return 'mailto:'+mail
+}
+
+function whatsapp(wh){
+    return 'https://wa.me/'+wh
+}
+
 function RenderCabania(props) {
+    
         return(
             <Fragment>
             <div className='container'>
@@ -38,12 +47,12 @@ function RenderCabania(props) {
                                 E-Mail: <b>{props.cabania.mail}</b> 
                             </div>
                             <div className='row'>
-                                <a href={'https://wa.me/'+props.phone} className='btn light-blue darken-4' >
+                                <a href={whatsapp(props.cabania.phone)} className='btn light-blue darken-4' >
                                                     <i className='material-icons'>call
                                                     </i>
                                 </a>
 
-                                <a className='btn light-blue darken-4 marginLeft' href={'mailto:'+props.mail}>
+                                <a className='btn light-blue darken-4 marginLeft' href={mailTo(props.cabania.mail)}>
                                     <i className='material-icons'>mail
                                                     </i></a>
                             </div>
