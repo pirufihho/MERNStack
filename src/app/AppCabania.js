@@ -10,6 +10,7 @@ import ABMCabanias from './ABMCabanias';
 import CabaniasList from './CabaniasList';
 import Login from './login'
 import GetCabania from './GetCabania';
+import Favorites from './Favorites';
 
 function AppCabania() {
   const ref = useRef(null);
@@ -71,6 +72,9 @@ function AppCabania() {
         }
         {
           !isLoggedIn && <Route path='/login' element={<Login />} />
+        }
+        {
+          isLoggedIn && <Route path='/favorites' element={<Favorites />} />
         }
         <Route path="getCabania/:id" element={<GetCabania />} />
 
