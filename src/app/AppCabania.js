@@ -52,7 +52,8 @@ function AppCabania() {
           {
             !isLoggedIn && <li>
               <Link to="/login">Login</Link>
-            </li>}
+            </li>
+          }
           {
             isLoggedIn && <li id="User" ref={ref}>
               <a href='/' onClick={logout}>Logout</a>
