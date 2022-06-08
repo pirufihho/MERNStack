@@ -50,6 +50,25 @@ function Favorites() {
         }
     }
 
+    const deleteFavorite = (data) => {
+        var findFavorite = favorites.find(x => x.cabaniaId == data._id)
+
+        if (confirm('Are you sure you want to delete it from Favorites?')) {
+            fetch('/api/favorites/' + findFavorite._id, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    M.toast({ html: data.status });
+                    getFavorites();
+                })
+        }
+    }
+
 
   return (
     <Fragment>
@@ -58,7 +77,7 @@ function Favorites() {
     {
         cabanias.map(c => {
             return (
-                <RenderCabania cabania={c}></RenderCabania>
+                <RenderCabania key={c._id} cabania={c} deleteFavorite={deleteFavorite} showDelete={true}></RenderCabania>
             ) 
         })
     }

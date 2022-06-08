@@ -44,7 +44,7 @@ class GetCabania extends Component {
 
     render() {
         return (
-             <RenderCabania cabania={this.state.cabania}></RenderCabania>
+             <RenderCabania cabania={this.state.cabania} showDelete={false}></RenderCabania>
         )
     }
 }

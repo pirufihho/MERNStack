@@ -20,8 +20,9 @@ function whatsapp(wh){
     return 'https://wa.me/'+wh
 }
 
+
+
 function RenderCabania(props) {
-    
         return(
             <Fragment>
             <div className='container'>
@@ -30,7 +31,15 @@ function RenderCabania(props) {
                     <div className='card'>
                         <div className='card-content' >
                             <div className='row'>
+                                <div className='col s-10'>
                                 <h4>{props.cabania.title}</h4>
+                                </div>
+                                {props.showDelete && <div className='col s-2'>
+                                <button className='btn light-blue darken-4' onClick={() => props.deleteFavorite(props.cabania)}>
+                                                            <i className='material-icons'>delete
+                                                            </i>
+                                                        </button>
+                                </div>}
                             </div>
                             <div className='row'>
                                 {props.cabania.description}
