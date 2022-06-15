@@ -16,8 +16,10 @@ function AppCabania() {
   const ref = useRef(null);
   const [isLoggedIn, setLoggedIn] = useState(service.isUserLoged());
   const [adminUser, setAdminUser] = useState(service.isAdminUser());
+  const [toggleProfile, setToggleProfile] = useState(false);
 
   useEffect(() => {
+    console.log('appcabania.js');
     if (ref.current) {
       applyWidthUser(ref.current);
     }
@@ -25,13 +27,26 @@ function AppCabania() {
 
   function applyWidthUser(ref) {
     let navBarWidth = document.getElementById("navBar").offsetWidth;
-    ref.style.setProperty('margin-left', `${navBarWidth - (navBarWidth * 0.3)}px`);
+
+    //set margin of profile and login buttons
+    if(ref.id=="profile"){
+      ref.style.setProperty('margin-left', `${navBarWidth - (navBarWidth * 0.2)}px`);
+    } else{
+      ref.style.setProperty('margin-left', `${navBarWidth - (navBarWidth * 0.1)}px`);
+    }
+    
   }
 
   function logout() {
     service.logout();
     setLoggedIn(service.isUserLoged());
     setAdminUser(service.isAdminUser());
+    window.location.reload();
+    _toggleProfile();
+  }
+
+  function _toggleProfile(){
+    setToggleProfile(!toggleProfile);
   }
 
   return (
@@ -47,22 +62,18 @@ function AppCabania() {
             </li>
           }
           {
-            isLoggedIn && <li>
-              <Link to="/favorites">Favorites</Link>
-            </li>}
-          {
-            !isLoggedIn && <li>
+            !isLoggedIn && <li id="login" ref={ref}>
               <Link to="/login">Login</Link>
             </li>
           }
           {
-            isLoggedIn && <li>
-                <a className="btn dropdown-trigger" href="#" data-target="dropdown2">Profile
+            isLoggedIn && <li id="profile" ref={ref}>
+                <a className="btn dropdown-trigger light-blue darken-4" href="#" data-target="dropdown2" onClick={() => setToggleProfile(!toggleProfile)}>Profile
                   <i className="material-icons right">arrow_drop_down</i>
                 </a>
                 
-                  <a className="btn dropdown-trigger profileOption" href="#" onClick={() =>logout()}>Logout</a>
-                
+                 {toggleProfile && <a className="btn dropdown-trigger light-blue darken-4 profileOption" href="#" onClick={() =>logout()}>Logout</a>}
+                 {toggleProfile && <Link className="btn dropdown-trigger light-blue darken-4 profileOption" to='/favorites' onClick={()=>_toggleProfile()}>Favorites</Link>}
               </li>
 
           }
