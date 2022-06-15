@@ -56,11 +56,16 @@ function AppCabania() {
             </li>
           }
           {
-            isLoggedIn && <li id="User" ref={ref}>
-              <a href='/' onClick={logout}>Logout</a>
-            </li>
-          }
+            isLoggedIn && <li>
+                <a className="btn dropdown-trigger" href="#" data-target="dropdown2">Profile
+                  <i className="material-icons right">arrow_drop_down</i>
+                </a>
+                
+                  <a className="btn dropdown-trigger profileOption" href="#" onClick={() =>logout()}>Logout</a>
+                
+              </li>
 
+          }
         </ul>
       </div>
 
