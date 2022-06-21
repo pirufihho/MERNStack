@@ -12,7 +12,9 @@ class CabaniasList extends Component {
     constructor() {
         super();
         this.state = {
-            cabanias: []
+            cabanias: [],
+            provincias:[],
+            ciudades:[]
         }
     }
 
@@ -49,6 +51,33 @@ class CabaniasList extends Component {
         return (
             <Fragment>
                 <h2 className='initalMargin'>Cabanias lists</h2>
+                <div className='card'>
+                                <div className='card-content'>
+                                    <div className='row'>
+                                        <div className='col s6'>
+                                            <h5>Filters</h5>
+                                        </div>
+                                        <div className='col s3'>
+                                            <select className='select'>
+                                                <option value="" >Choose your option</option>
+                                                <option value="1">Option 1</option>
+                                                <option value="2">Option 2</option>
+                                                <option value="3">Option 3</option>
+                                            </select>
+                                            <label>Provincias</label>
+                                        </div>
+                                        <div className='col s3'>
+                                            <select className='select'>
+                                                <option value="" >Choose your option</option>
+                                                <option value="1">Option 1</option>
+                                                <option value="2">Option 2</option>
+                                                <option value="3">Option 3</option>
+                                            </select>
+                                            <label>Ciudad</label>
+                                        </div>
+                                    </div>
+                                </div>
+                </div>
                 {
                     this.state.cabanias.map(cab => {
                         return (

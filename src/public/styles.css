@@ -37,3 +37,7 @@ li {
 .profileOption{
     display: flow-root;
 }
+
+.select{
+    display: block;
+}
