@@ -13,8 +13,8 @@ class CabaniasList extends Component {
         super();
         this.state = {
             cabanias: [],
-            provincias:[],
-            ciudades:[]
+            provincies:[],
+            cities:[]
         }
     }
 
@@ -22,11 +22,25 @@ class CabaniasList extends Component {
         this.fetchCabanias();
     }
 
+    getProvinciesCities(data){
+        if(data){
+            var provincies = data.map(x =>{
+                return x.province;
+            })
+            var cities = data.map(x =>{
+                return x.city;
+            })
+            this.setState({provincies:provincies});
+            this.setState({cities:cities});
+        }
+    }
+
     fetchCabanias() {
         fetch('/api/cabanias')
             .then(res => res.json())
             .then(data => {
                 this.setState({ cabanias: data })
+                this.getProvinciesCities(data);
             });
     }
 
@@ -59,12 +73,17 @@ class CabaniasList extends Component {
                                         </div>
                                         <div className='col s3'>
                                             <select className='select'>
-                                                <option value="" >Choose your option</option>
+                                                {/* <option value="" >Choose your option</option>
                                                 <option value="1">Option 1</option>
                                                 <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                                <option value="3">Option 3</option> */}
+                                                {
+                                                    this.state.provincies.map(x,index => {
+                                                        return <option key={index}> x </option>
+                                                    })
+                                                }
                                             </select>
-                                            <label>Provincias</label>
+                                            <label>Provincies</label>
                                         </div>
                                         <div className='col s3'>
                                             <select className='select'>
@@ -73,7 +92,7 @@ class CabaniasList extends Component {
                                                 <option value="2">Option 2</option>
                                                 <option value="3">Option 3</option>
                                             </select>
-                                            <label>Ciudad</label>
+                                            <label>Cities</label>
                                         </div>
                                     </div>
                                 </div>
