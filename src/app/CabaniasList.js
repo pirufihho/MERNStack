@@ -14,8 +14,12 @@ class CabaniasList extends Component {
         this.state = {
             cabanias: [],
             provincies:[],
-            cities:[]
+            cities:[],
+            selectedProvince:'',
+            selectedCity:''
         }
+
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
@@ -30,8 +34,10 @@ class CabaniasList extends Component {
             var cities = data.map(x =>{
                 return x.city;
             })
-            this.setState({provincies:provincies});
-            this.setState({cities:cities});
+
+            //...new Set of array to get distinct values
+            this.setState({provincies:[...new Set(provincies)]});
+            this.setState({cities:[...new Set(cities)]});
         }
     }
 
@@ -42,6 +48,18 @@ class CabaniasList extends Component {
                 this.setState({ cabanias: data })
                 this.getProvinciesCities(data);
             });
+    }
+
+    selectFilter(option){
+        console.log(option)
+    }
+
+    handleChange(event) {
+        if(event.target.id=="selProvincies"){
+            this.setState({selectedProvince: event.target.value})
+        }else{
+            this.setState({selectedCity: event.target.value})
+        }
     }
 
     saveFavorite(id) {
@@ -72,25 +90,24 @@ class CabaniasList extends Component {
                                             <h5>Filters</h5>
                                         </div>
                                         <div className='col s3'>
-                                            <select className='select'>
-                                                {/* <option value="" >Choose your option</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option> */}
+                                            <select className='select' onChange={this.handleChange} id="selProvincies">
+                                                    <option value="" >Choose your option</option>
                                                 {
-                                                    this.state.provincies.map(x,index => {
-                                                        return <option key={index}> x </option>
+                                                    this.state.provincies.map((x,index) => {
+                                                        return (<option key={index}> {x} </option>)
                                                     })
                                                 }
                                             </select>
                                             <label>Provincies</label>
                                         </div>
                                         <div className='col s3'>
-                                            <select className='select'>
+                                            <select className='select' onChange={this.handleChange} id="selCities">
                                                 <option value="" >Choose your option</option>
-                                                <option value="1">Option 1</option>
-                                                <option value="2">Option 2</option>
-                                                <option value="3">Option 3</option>
+                                                {
+                                                    this.state.cities.map((x,index) => {
+                                                        return (<option key={index} > {x} </option>)
+                                                    })
+                                                }
                                             </select>
                                             <label>Cities</label>
                                         </div>
