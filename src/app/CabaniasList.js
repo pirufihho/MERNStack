@@ -13,10 +13,10 @@ class CabaniasList extends Component {
         super();
         this.state = {
             cabanias: [],
-            provincies:[],
-            cities:[],
-            selectedProvince:'',
-            selectedCity:''
+            provincies: [],
+            cities: [],
+            selectedProvince: '',
+            selectedCity: ''
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -26,18 +26,18 @@ class CabaniasList extends Component {
         this.fetchCabanias();
     }
 
-    getProvinciesCities(data){
-        if(data){
-            var provincies = data.map(x =>{
+    getProvinciesCities(data) {
+        if (data) {
+            var provincies = data.map(x => {
                 return x.province;
             })
-            var cities = data.map(x =>{
+            var cities = data.map(x => {
                 return x.city;
             })
 
             //...new Set of array to get distinct values
-            this.setState({provincies:[...new Set(provincies)]});
-            this.setState({cities:[...new Set(cities)]});
+            this.setState({ provincies: [...new Set(provincies)] });
+            this.setState({ cities: [...new Set(cities)] });
         }
     }
 
@@ -50,22 +50,22 @@ class CabaniasList extends Component {
             });
     }
 
-    selectFilter(option){
+    selectFilter(option) {
         console.log(option)
     }
 
     handleChange(event) {
-        if(event.target.id=="selProvincies"){
-            this.setState({selectedProvince: event.target.value})
-        }else{
-            this.setState({selectedCity: event.target.value})
+        if (event.target.id == "selProvincies") {
+            this.setState({ selectedProvince: event.target.value })
+        } else {
+            this.setState({ selectedCity: event.target.value })
         }
     }
 
     saveFavorite(id) {
         fetch('/api/favorites', {
             method: 'POST',
-            body: JSON.stringify({userId:service.getUserId(),cabaniaId:id}),
+            body: JSON.stringify({ userId: service.getUserId(), cabaniaId: id }),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -84,23 +84,23 @@ class CabaniasList extends Component {
             <Fragment>
                 <h2 className='initalMargin'>Cabanias lists</h2>
                 <div className='card'>
-                                <div className='card-content'>
-                                    <div className='row'>
-                                        <div className='col s6'>
-                                            <h5>Filters</h5>
-                                        </div>
-                                        <div className='col s3'>
-                                            <select className='select' onChange={this.handleChange} id="selProvincies">
-                                                    <option value="" >Choose your option</option>
-                                                {
-                                                    this.state.provincies.map((x,index) => {
-                                                        return (<option key={index}> {x} </option>)
-                                                    })
-                                                }
-                                            </select>
-                                            <label>Provincies</label>
-                                        </div>
-                                        <div className='col s3'>
+                    <div className='card-content'>
+                        <div className='row'>
+                            <div className='col s6'>
+                                <h5>Filters</h5>
+                            </div>
+                            <div className='col s3'>
+                                <select className='select' onChange={this.handleChange} id="selProvincies">
+                                    <option value="" >Choose your option</option>
+                                    {
+                                        this.state.provincies.map((x, index) => {
+                                            return (<option key={index}> {x} </option>)
+                                        })
+                                    }
+                                </select>
+                                <label>Provincies</label>
+                            </div>
+                            {/* <div className='col s3'>
                                             <select className='select' onChange={this.handleChange} id="selCities">
                                                 <option value="" >Choose your option</option>
                                                 {
@@ -110,9 +110,9 @@ class CabaniasList extends Component {
                                                 }
                                             </select>
                                             <label>Cities</label>
-                                        </div>
-                                    </div>
-                                </div>
+                                        </div> */}
+                        </div>
+                    </div>
                 </div>
                 {
                     this.state.cabanias.map(cab => {
@@ -124,6 +124,12 @@ class CabaniasList extends Component {
                                             <div className='card-content' >
                                                 <div className='row'>
                                                     <h4>{cab.title}</h4>
+                                                </div>
+                                                <div className='row'>
+                                                    Province: <b>{cab.province}</b>
+                                                </div>
+                                                <div className='row'>
+                                                    City: <b>{cab.city}</b>
                                                 </div>
                                                 <div className='row'>
                                                     {cab.description}
@@ -142,10 +148,10 @@ class CabaniasList extends Component {
                                                         </button> */}
                                                 </div>
                                                 <div>
-                                                <button className='btn light-blue darken-4' onClick={ () => this.saveFavorite(cab._id) } >
-                                                     <i className='material-icons'>favorite
-                                                     </i>
-                                                         </button>
+                                                    <button className='btn light-blue darken-4' onClick={() => this.saveFavorite(cab._id)} >
+                                                        <i className='material-icons'>favorite
+                                                        </i>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
