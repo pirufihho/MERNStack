@@ -13,6 +13,7 @@ class CabaniasList extends Component {
         super();
         this.state = {
             cabanias: [],
+            allCabanias: [],
             provincies: [],
             cities: [],
             selectedProvince: '',
@@ -45,13 +46,22 @@ class CabaniasList extends Component {
         fetch('/api/cabanias')
             .then(res => res.json())
             .then(data => {
+                this.setState({ allCabanias: data })
                 this.setState({ cabanias: data })
                 this.getProvinciesCities(data);
             });
     }
 
-    selectFilter(option) {
-        console.log(option)
+    selectFilter() {
+        var filteredCabanias = this.state.allCabanias;
+
+        if(this.state.selectedProvince){
+            filteredCabanias = filteredCabanias.filter(x => x.province === this.state.selectedProvince);
+
+            this.setState({ cabanias: filteredCabanias });
+        }else{
+            this.setState({ cabanias: this.state.allCabanias });
+        }
     }
 
     handleChange(event) {
@@ -91,7 +101,7 @@ class CabaniasList extends Component {
                             </div>
                             <div className='col s3'>
                                 <select className='select' onChange={this.handleChange} id="selProvincies">
-                                    <option value="" >Choose your option</option>
+                                    <option value="" >All</option>
                                     {
                                         this.state.provincies.map((x, index) => {
                                             return (<option key={index}> {x} </option>)
@@ -100,17 +110,11 @@ class CabaniasList extends Component {
                                 </select>
                                 <label>Provincies</label>
                             </div>
-                            {/* <div className='col s3'>
-                                            <select className='select' onChange={this.handleChange} id="selCities">
-                                                <option value="" >Choose your option</option>
-                                                {
-                                                    this.state.cities.map((x,index) => {
-                                                        return (<option key={index} > {x} </option>)
-                                                    })
-                                                }
-                                            </select>
-                                            <label>Cities</label>
-                                        </div> */}
+                            <div className='col s3'>
+                            <button type="submit" className='btn light-blue darken-4' onClick={()=> this.selectFilter()}>
+                                            Filter
+                                        </button>
+                                        </div>
                         </div>
                     </div>
                 </div>
