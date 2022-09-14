@@ -21,7 +21,7 @@ class ABMCabanias extends Component {
                 description: '',
                 id: ''
             },
-            toggleFilters: true
+            toggleFilters: false
         }
 
         this.addTask = this.addTask.bind(this);
@@ -31,6 +31,7 @@ class ABMCabanias extends Component {
 
     componentDidMount() {
         this.fetchCabanias();
+        this.setState({toggleFilters:false});
     }
 
     clearFields() {
