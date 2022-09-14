@@ -12,6 +12,7 @@ class CabaniasList extends Component {
     constructor() {
         super();
         this.state = {
+            allCabanias:[],
             cabanias: [],
             provincies:[],
             cities:[],
@@ -46,12 +47,22 @@ class CabaniasList extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({ cabanias: data })
+                this.setState({allCabanias: data})
                 this.getProvinciesCities(data);
             });
     }
 
-    selectFilter(option){
-        console.log(option)
+    search(){
+        var filtered = this.state.allCabanias;
+
+        if(this.state.selectedCity){
+            filtered = filtered.filter(x => x.city == this.state.selectedCity);    
+        }
+        if(this.state.selectedProvince){
+            filtered = filtered.filter(x => x.province == this.state.selectedProvince)
+        }
+
+        this.setState({cabanias: filtered});
     }
 
     handleChange(event) {
@@ -89,7 +100,7 @@ class CabaniasList extends Component {
                                         <div className='col s6'>
                                             <h5>Filters</h5>
                                         </div>
-                                        <div className='col s3'>
+                                        <div className='col s2'>
                                             <select className='select' onChange={this.handleChange} id="selProvincies">
                                                     <option value="" >Choose your option</option>
                                                 {
@@ -100,7 +111,7 @@ class CabaniasList extends Component {
                                             </select>
                                             <label>Provincies</label>
                                         </div>
-                                        <div className='col s3'>
+                                        <div className='col s2'>
                                             <select className='select' onChange={this.handleChange} id="selCities">
                                                 <option value="" >Choose your option</option>
                                                 {
@@ -110,6 +121,11 @@ class CabaniasList extends Component {
                                                 }
                                             </select>
                                             <label>Cities</label>
+                                        </div>
+                                        <div className='col s2'>
+                                        <button className='btn light-blue darken-4' onClick={() => this.search()}>
+                                                            Search
+                                                        </button>
                                         </div>
                                     </div>
                                 </div>
