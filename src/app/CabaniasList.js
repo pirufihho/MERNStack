@@ -84,8 +84,6 @@ class CabaniasList extends Component {
         }).then(res => res.json())
             .then(data => {
                 M.toast({ html: data.status })
-                //this.clearFields();
-                //this.fetchCabanias();
             })
             .catch(err => console.log(err))
     }
