@@ -8,9 +8,10 @@ import {
 } from "react-router-dom";
 import ABMCabanias from './ABMCabanias';
 import CabaniasList from './CabaniasList';
-import Login from './login'
+import Login from './Login'
 import GetCabania from './GetCabania';
 import Favorites from './Favorites';
+import CreateAccount from './CreateAccount';
 
 function AppCabania() {
   const ref = useRef(null);
@@ -92,6 +93,7 @@ function AppCabania() {
         {
           isLoggedIn && <Route path='/favorites' element={<Favorites />} />
         }
+        <Route path="/createAccount" element={<CreateAccount />} />
         <Route path="getCabania/:id" element={<GetCabania />} />
 
       </Routes>

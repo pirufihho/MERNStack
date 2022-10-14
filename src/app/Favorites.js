@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import ABMCabanias from './ABMCabanias';
 import CabaniasList from './CabaniasList';
-import Login from './login'
+import Login from './Login'
 import GetCabania from './GetCabania';
 import RenderCabania from './RenderCabania';
 
