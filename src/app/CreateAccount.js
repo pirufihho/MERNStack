@@ -29,7 +29,27 @@ function handleChange(e) {
 
 function create(e){
     e.preventDefault();
-    alert(Name);
+
+    var newUser = {
+        name: Name,
+        lastName: LastName,
+        userName: UserName,
+        password: Password,
+        adminUser: false
+    }
+    
+    fetch('/api/users/', {
+        method: 'POST',
+        body: JSON.stringify(newUser),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+        .then(data => {
+            M.toast({ html: data.status })
+        })
+        .catch(err => console.log(err))
 }
 
     return (
