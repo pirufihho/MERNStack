@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-
+import userService from './../services/user.service'
 
 
 function CreateAccount(props) {
@@ -47,7 +47,17 @@ function create(e){
         }
     }).then(res => res.json())
         .then(data => {
-            M.toast({ html: data.status })
+            if(data && data.isSaved){
+                //login new user and return to home
+                userService.login(newUser.userName,newUser.password).then(response => {
+                    if(response.loggedIn){
+                        window.location.replace("http://localhost:3000")
+                    }
+                })
+            } else {
+                M.toast({ html: data.status });
+            }
+            
         })
         .catch(err => console.log(err))
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import service from '../services/user.service';
+import userService from '../services/user.service';
 import {
     Link
   } from "react-router-dom";
@@ -24,7 +24,7 @@ class Login extends Component {
 
     login(e){
         e.preventDefault();
-        service.login(this.state.userName,this.state.password).then(response =>{
+        userService.login(this.state.userName,this.state.password).then(response =>{
             //console.log(response);
             if(response.loggedIn){
                 //handle login ok

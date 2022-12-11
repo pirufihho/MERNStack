@@ -12,12 +12,14 @@ import Login from './Login'
 import GetCabania from './GetCabania';
 import Favorites from './Favorites';
 import CreateAccount from './CreateAccount';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function AppCabania() {
   const ref = useRef(null);
   const [isLoggedIn, setLoggedIn] = useState(service.isUserLoged());
   const [adminUser, setAdminUser] = useState(service.isAdminUser());
   const [toggleProfile, setToggleProfile] = useState(false);
+  const [userName, setUserName] = useState(service.getUserName());
 
   useEffect(() => {
     console.log('appcabania.js');
@@ -69,7 +71,7 @@ function AppCabania() {
           }
           {
             isLoggedIn && <li id="profile" ref={ref}>
-                <a className="btn dropdown-trigger light-blue darken-4" href="#" data-target="dropdown2" onClick={() => setToggleProfile(!toggleProfile)}>Profile
+                <a className="btn dropdown-trigger light-blue darken-4" href="#" data-target="dropdown2" onClick={() => setToggleProfile(!toggleProfile)}> <AccountCircleIcon />{userName}
                   <i className="material-icons right">arrow_drop_down</i>
                 </a>
                 

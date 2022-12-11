@@ -8,7 +8,11 @@ const service = {
             .then(res => res.json())
             .then(data =>{
                 if(data.loggedIn){
-                    localStorage.setItem('logedUser', JSON.stringify({loggedIn:data.loggedIn,adminUser:data.adminUser,userId:data.userId}))
+                    localStorage.setItem('logedUser', JSON.stringify({loggedIn:data.loggedIn,
+                        adminUser:data.adminUser,
+                        userId:data.userId,
+                        userName:userName
+                    }))
                 } else{
                     localStorage.removeItem('logedUser')
                 }
@@ -34,6 +38,12 @@ const service = {
         var getLogged = JSON.parse(localStorage.getItem('logedUser'));
 
         return getLogged.userId;
+    },
+
+    getUserName : () => {
+        var getLogged = JSON.parse(localStorage.getItem('logedUser'));
+
+        return getLogged && getLogged.userName ? getLogged.userName : "";
     },
     
     logout : () => {

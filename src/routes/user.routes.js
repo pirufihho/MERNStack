@@ -1,4 +1,5 @@
 const express = require('express');
+const { IgnorePlugin } = require('webpack');
 const router = express.Router();
 const User = require('../models/user')
 
@@ -30,8 +31,16 @@ router.post('/', async (req,res) => {
         password: password,
         adminUser:adminUser
     })
-    await user.save();
-    res.json({status:'User saved'});
+
+    var getUser = await User.where({password:user.password}).findOne();
+    if(getUser){
+        res.json({status:'User already exists',isSaved: false})
+    } else {
+
+        await user.save();
+        res.json({status:'User saved',isSaved: true});
+    }
+
 })
 
 router.put('/:id', async (req, res) => {
