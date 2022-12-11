@@ -32,7 +32,7 @@ router.post('/', async (req,res) => {
         adminUser:adminUser
     })
 
-    var getUser = await User.where({password:user.password}).findOne();
+    var getUser = await User.where({userName:user.userName}).findOne();
     if(getUser){
         res.json({status:'User already exists',isSaved: false})
     } else {
