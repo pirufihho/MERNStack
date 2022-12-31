@@ -47,41 +47,42 @@ class ABMCabanias extends Component {
         })
     }
 
-    addTask(e) {
-        if (this.state._id) {
-            fetch('/api/cabanias/' + this.state._id, {
-                method: 'PUT',
-                body: JSON.stringify(this.state),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    M.toast({ html: data.status });
-                    this.clearFields();
-                    this.fetchCabanias();
-                })
-        } else {
-
-            fetch('/api/cabanias', {
-                method: 'POST',
-                body: JSON.stringify(this.state),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }).then(res => res.json())
-                .then(data => {
-                    M.toast({ html: data.status })
-                    this.clearFields();
-                    this.fetchCabanias();
-                })
-                .catch(err => console.log(err))
-        }
+    async addTask(e) {
         e.preventDefault();
-    }
+      
+        let response;
+        let data;
+        let method;
+        let url;
+      
+        if (this.state._id) {
+          method = 'PUT';
+          url = '/api/cabanias/' + this.state._id;
+        } else {
+          method = 'POST';
+          url = '/api/cabanias';
+        }
+      
+        try {
+          response = await fetch(url, {
+            method: method,
+            body: JSON.stringify(this.state),
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          });
+          data = await response.json();
+        } catch (err) {
+          console.log(err);
+          return;
+        }
+      
+        M.toast({ html: data.status });
+        this.clearFields();
+        this.fetchCabanias();
+      }
+      
 
     fetchCabanias() {
         fetch('/api/cabanias')
