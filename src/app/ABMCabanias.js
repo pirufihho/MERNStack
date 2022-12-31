@@ -110,22 +110,26 @@ class ABMCabanias extends Component {
         }))
     }
 
-    deleteCabania(id) {
-        if (confirm('Are you sure you want to delete it')) {
-            fetch('/api/cabanias/' + id, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    M.toast({ html: data.status });
-                    this.fetchCabanias();
-                })
+    async deleteCabania(id) {
+        if (window.confirm('Are you sure you want to delete it')) {
+          try {
+            const res = await fetch(`/api/cabanias/${id}`, {
+              method: 'DELETE',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+            });
+            const data = await res.json();
+      
+            M.toast({ html: data.status });
+            this.fetchCabanias();
+          } catch (error) {
+            console.error(error);
+          }
         }
-    }
+      }
+      
 
     editCabania(id) {
         fetch('/api/cabanias/' + id)
