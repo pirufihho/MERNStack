@@ -145,21 +145,20 @@ class ABMCabanias extends Component {
     }
 
     search() {
-        this.state.cabaniasFiltered = this.state.cabanias
-        let {id,title,description} = this.state.filters
-
-        if(id){
-            let {id} = this.state.filters
-            this.state.cabaniasFiltered = this.state.cabaniasFiltered.filter(function (x) { return x._id.includes(id); })
+        const { id, title, description } = this.state.filters;
+        let cabaniasFiltered = this.state.cabanias;
+      
+        if (id) {
+          cabaniasFiltered = cabaniasFiltered.filter(cabania => cabania._id.includes(id));
         }
-        if(title){
-            let {title} = this.state.filters
-            this.state.cabaniasFiltered = this.state.cabaniasFiltered.filter(function (x) { return x.title.includes(title); })
+        if (title) {
+          cabaniasFiltered = cabaniasFiltered.filter(cabania => cabania.title.includes(title));
         }
-        if(description){
-            this.state.cabaniasFiltered = this.state.cabaniasFiltered.filter(function (x) { return x.description.includes(description); })
+        if (description) {
+          cabaniasFiltered = cabaniasFiltered.filter(cabania => cabania.description.includes(description));
         }
-        this.setState({cabaniasFiltered: this.state.cabaniasFiltered})
+      
+        this.setState({ cabaniasFiltered });
     }
 
     clearFilters(){
