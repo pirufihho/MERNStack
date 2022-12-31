@@ -49,39 +49,40 @@ class ABMCabanias extends Component {
 
     async addTask(e) {
         e.preventDefault();
-      
+
         let response;
         let data;
         let method;
         let url;
-      
+
         if (this.state._id) {
-          method = 'PUT';
-          url = '/api/cabanias/' + this.state._id;
+            method = 'PUT';
+            url = '/api/cabanias/' + this.state._id;
         } else {
-          method = 'POST';
-          url = '/api/cabanias';
+            method = 'POST';
+            url = '/api/cabanias';
         }
-      
+
         try {
-          response = await fetch(url, {
-            method: method,
-            body: JSON.stringify(this.state),
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-          });
-          data = await response.json();
+            response = await fetch(url, {
+                method: method,
+                body: JSON.stringify(this.state),
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            });
+            data = await response.json();
+
+            M.toast({ html: data.status });
+            this.clearFields();
+            this.fetchCabanias();
         } catch (err) {
-          console.log(err);
-          return;
+            console.log(err);
+            return;
         }
-      
-        M.toast({ html: data.status });
-        this.clearFields();
-        this.fetchCabanias();
-      }
+
+    }
       
 
     fetchCabanias() {
