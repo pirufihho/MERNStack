@@ -131,22 +131,26 @@ class ABMCabanias extends Component {
       }
       
 
-    editCabania(id) {
-        fetch('/api/cabanias/' + id)
-            .then(res => res.json())
-            .then(data => {
-                this.setState({
-                    title: data.title,
-                    description: data.description,
-                    imgURI: data.imgURI,
-                    _id: data._id,
-                    mail: data.mail ? data.mail : '',
-                    phone: data.phone ? data.phone : '',
-                    province: data.province ? data.province : '',
-                    city: data.city ? data.city : ''
-                })
-            })
-    }
+      async editCabania(id) {
+        try {
+          const res = await fetch(`/api/cabanias/${id}`);
+          const data = await res.json();
+      
+          this.setState({
+            title: data.title,
+            description: data.description,
+            imgURI: data.imgURI,
+            _id: data._id,
+            mail: data.mail ?? '',
+            phone: data.phone ?? '',
+            province: data.province ?? '',
+            city: data.city ?? '',
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      
 
     search() {
         const { id, title, description } = this.state.filters;
