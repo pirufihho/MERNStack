@@ -75,6 +75,7 @@ class ABMCabanias extends Component {
           data = await response.json();
         } catch (err) {
           console.log(err);
+          M.toast({ html: err});
           return;
         }
       
