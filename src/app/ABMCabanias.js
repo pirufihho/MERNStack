@@ -47,49 +47,61 @@ class ABMCabanias extends Component {
         })
     }
 
-    addTask(e) {
-        if (this.state._id) {
-            fetch('/api/cabanias/' + this.state._id, {
-                method: 'PUT',
-                body: JSON.stringify(this.state),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    M.toast({ html: data.status });
-                    this.clearFields();
-                    this.fetchCabanias();
-                })
-        } else {
-
-            fetch('/api/cabanias', {
-                method: 'POST',
-                body: JSON.stringify(this.state),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }).then(res => res.json())
-                .then(data => {
-                    M.toast({ html: data.status })
-                    this.clearFields();
-                    this.fetchCabanias();
-                })
-                .catch(err => console.log(err))
-        }
+    async addTask(e) {
         e.preventDefault();
-    }
+      
+        let response;
+        let data;
+        let method;
+        let url;
+      
+        if (this.state._id) {
+          method = 'PUT';
+          url = '/api/cabanias/' + this.state._id;
+        } else {
+          method = 'POST';
+          url = '/api/cabanias';
+        }
+      
+        try {
+          response = await fetch(url, {
+            method: method,
+            body: JSON.stringify(this.state),
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          });
+          data = await response.json();
+        } catch (err) {
+          console.log(err);
+          M.toast({ html: err});
+          return;
+        }
+      
+        M.toast({ html: data.status });
+        this.clearFields();
+        this.fetchCabanias();
+      }
+      
+      
 
-    fetchCabanias() {
-        fetch('/api/cabanias')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({ cabanias: data })
-                this.setState({cabaniasFiltered:data})  
-            });
+    async fetchCabanias() {
+        let response;
+        let data;
+        let url = '/api/cabanias';
+
+        try {
+            response = await fetch(url)
+            data = await response.json();
+        }
+        catch (err){
+            console.log(err);
+            return;
+        }
+
+        this.setState({ cabanias: data })
+        this.setState({cabaniasFiltered:data})
     }
 
     handleChange(e) {
@@ -110,56 +122,63 @@ class ABMCabanias extends Component {
         }))
     }
 
-    deleteCabania(id) {
-        if (confirm('Are you sure you want to delete it')) {
-            fetch('/api/cabanias/' + id, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    M.toast({ html: data.status });
-                    this.fetchCabanias();
-                })
+    async deleteCabania(id) {
+        if (window.confirm('Are you sure you want to delete it')) {
+          try {
+            const res = await fetch(`/api/cabanias/${id}`, {
+              method: 'DELETE',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+            });
+            const data = await res.json();
+      
+            M.toast({ html: data.status });
+            this.fetchCabanias();
+          } catch (error) {
+            console.error(error);
+          }
         }
-    }
+      }
+      
 
-    editCabania(id) {
-        fetch('/api/cabanias/' + id)
-            .then(res => res.json())
-            .then(data => {
-                this.setState({
-                    title: data.title,
-                    description: data.description,
-                    imgURI: data.imgURI,
-                    _id: data._id,
-                    mail: data.mail ? data.mail : '',
-                    phone: data.phone ? data.phone : '',
-                    province: data.province ? data.province : '',
-                    city: data.city ? data.city : ''
-                })
-            })
-    }
+      async editCabania(id) {
+        try {
+          const res = await fetch(`/api/cabanias/${id}`);
+          const data = await res.json();
+      
+          this.setState({
+            title: data.title,
+            description: data.description,
+            imgURI: data.imgURI,
+            _id: data._id,
+            mail: data.mail ?? '',
+            phone: data.phone ?? '',
+            province: data.province ?? '',
+            city: data.city ?? '',
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      
 
     search() {
-        this.state.cabaniasFiltered = this.state.cabanias
-        let {id,title,description} = this.state.filters
-
-        if(id){
-            let {id} = this.state.filters
-            this.state.cabaniasFiltered = this.state.cabaniasFiltered.filter(function (x) { return x._id.includes(id); })
+        const { id, title, description } = this.state.filters;
+        let cabaniasFiltered = this.state.cabanias;
+      
+        if (id) {
+          cabaniasFiltered = cabaniasFiltered.filter(cabania => cabania._id.includes(id));
         }
-        if(title){
-            let {title} = this.state.filters
-            this.state.cabaniasFiltered = this.state.cabaniasFiltered.filter(function (x) { return x.title.includes(title); })
+        if (title) {
+          cabaniasFiltered = cabaniasFiltered.filter(cabania => cabania.title.includes(title));
         }
-        if(description){
-            this.state.cabaniasFiltered = this.state.cabaniasFiltered.filter(function (x) { return x.description.includes(description); })
+        if (description) {
+          cabaniasFiltered = cabaniasFiltered.filter(cabania => cabania.description.includes(description));
         }
-        this.setState({cabaniasFiltered: this.state.cabaniasFiltered})
+      
+        this.setState({ cabaniasFiltered });
     }
 
     clearFilters(){
@@ -177,13 +196,6 @@ class ABMCabanias extends Component {
     render() {
         return (
             <div>
-                {/* NAVIGATION */}
-                {/* <nav className='light-blue darken-4'>
-                    <div className='container'>
-                        <a className='brand-logo' href='/'>MERN Stack</a>
-                    </div>
-                </nav> */}
-
                 <div className='container' style={{ marginTop: '80px' }}>
                     <div className='row'>
                         <div className='col s5'>

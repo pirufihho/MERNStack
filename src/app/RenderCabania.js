@@ -71,6 +71,19 @@ function RenderCabania(props) {
                                         <i className='material-icons'>mail
                                         </i></a>
                                 </div>
+                                <div>
+
+                                                     {/* <Link to={"getCabania/" + cab._id}>Consult</Link> */}
+
+                                                
+                                              </div>
+                                              {props.showFavorite && <div>
+                                                     <button className='btn light-blue darken-4' onClick={() => props.saveFavorite(props.cabania)} >
+                                                         <i className='material-icons'>favorite
+                                                        </i>
+                                                    </button>
+                                               </div>
+                                               }
                             </div>
                         </div>
                     </div>
