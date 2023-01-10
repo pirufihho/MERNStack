@@ -20,7 +20,7 @@ class CabaniasList extends Component {
             selectedCity: ''
         }
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleChangeFilters = this.handleChangeFilters.bind(this);
     }
 
     componentDidMount() {
@@ -28,11 +28,14 @@ class CabaniasList extends Component {
     }
 
     getProvinciesCities(data) {
+        let provincies;
+        let cities;
+
         if (data) {
-            var provincies = data.map(x => {
+            provincies = data.map(x => {
                 return x.province;
             })
-            var cities = data.map(x => {
+            cities = data.map(x => {
                 return x.city;
             })
 
@@ -42,14 +45,22 @@ class CabaniasList extends Component {
         }
     }
 
-    fetchCabanias() {
-        fetch('/api/cabanias')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({ cabanias: data })
-                this.setState({ allCabanias: data })
-                this.getProvinciesCities(data);
-            });
+    async fetchCabanias() {
+        let response;
+        let data;
+        let url= '/api/cabanias';
+
+        try {
+            response = await fetch(url);
+            data = await response.json();
+        }
+        catch(err){
+            console.log(err);
+        }
+
+        this.setState({ cabanias: data })
+        this.setState({ allCabanias: data })
+        this.getProvinciesCities(data);
     }
 
     search() {
@@ -65,7 +76,7 @@ class CabaniasList extends Component {
         this.setState({ cabanias: filtered });
     }
 
-    handleChange(event) {
+    handleChangeFilters(event) {
         if (event.target.id == "selProvincies") {
             this.setState({ selectedProvince: event.target.value })
         } else {
@@ -73,20 +84,31 @@ class CabaniasList extends Component {
         }
     }
 
-    saveFavorite(data) {
-        console.log(data);
-        fetch('/api/favorites', {
-            method: 'POST',
-            body: JSON.stringify({ userId: service.getUserId(), cabaniaId: data._id }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .then(data => {
-                M.toast({ html: data.status })
+    async saveFavorite(_data) {
+        let response;
+        let data;
+        let method ='POST';
+        let url = '/api/favorites';
+        let headers ={
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+
+        try {
+            response = await fetch(url, {
+                method: method,
+                body: JSON.stringify({ userId: service.getUserId(), cabaniaId: _data._id }),
+                headers: headers
             })
-            .catch(err => console.log(err))
+
+            data = await response.json()
+        }
+        catch (err){
+            console.log(err);
+            return
+        }
+
+        M.toast({ html: data.status })
     }
 
     render() {
@@ -100,7 +122,7 @@ class CabaniasList extends Component {
                                 <h5>Filters</h5>
                             </div>
                             <div className='col s2'>
-                                <select className='select' onChange={this.handleChange} id="selProvincies">
+                                <select className='select' onChange={this.handleChangeFilters} id="selProvincies">
                                     <option value="" >Choose your option</option>
                                     {
                                         this.state.provincies.map((x, index) => {
@@ -111,7 +133,7 @@ class CabaniasList extends Component {
                                 <label>Provincies</label>
                             </div>
                             <div className='col s2'>
-                                <select className='select' onChange={this.handleChange} id="selCities">
+                                <select className='select' onChange={this.handleChangeFilters} id="selCities">
                                     <option value="" >Choose your option</option>
                                     {
                                         this.state.cities.map((x, index) => {

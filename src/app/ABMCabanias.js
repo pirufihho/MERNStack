@@ -86,13 +86,22 @@ class ABMCabanias extends Component {
       
       
 
-    fetchCabanias() {
-        fetch('/api/cabanias')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({ cabanias: data })
-                this.setState({cabaniasFiltered:data})  
-            });
+    async fetchCabanias() {
+        let response;
+        let data;
+        let url = '/api/cabanias';
+
+        try {
+            response = await fetch(url)
+            data = await response.json();
+        }
+        catch (err){
+            console.log(err);
+            return;
+        }
+
+        this.setState({ cabanias: data })
+        this.setState({cabaniasFiltered:data})
     }
 
     handleChange(e) {
@@ -187,13 +196,6 @@ class ABMCabanias extends Component {
     render() {
         return (
             <div>
-                {/* NAVIGATION */}
-                {/* <nav className='light-blue darken-4'>
-                    <div className='container'>
-                        <a className='brand-logo' href='/'>MERN Stack</a>
-                    </div>
-                </nav> */}
-
                 <div className='container' style={{ marginTop: '80px' }}>
                     <div className='row'>
                         <div className='col s5'>
