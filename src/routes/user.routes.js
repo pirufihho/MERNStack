@@ -3,14 +3,32 @@ const { IgnorePlugin } = require('webpack');
 const router = express.Router();
 const User = require('../models/user')
 
-router.get('/login/:userName/:password', async (req,res) => {
-    const user = await User.where({userName: req.params.userName, password:req.params.password}).findOne();
-    if(user){
-        res.json({loggedIn: true,adminUser:user.adminUser,userId:user._id});
+const jwt = require('jsonwebtoken');
+const secret = 'secret-key';
+
+// router.get('/login/:userName/:password', async (req,res) => {
+//     const user = await User.where({userName: req.params.userName, password:req.params.password}).findOne();
+//     if(user){
+//         res.json({loggedIn: true,adminUser:user.adminUser,userId:user._id});
+//     } else {
+//         res.json({loggedIn: false});
+//     }
+// })
+
+router.get('/login/:userName/:password', async (req, res) => {
+    const user = await User.where({userName: req.params.userName, password: req.params.password}).findOne();
+    if (user) {
+        const payload = {
+            userId: user._id,
+            adminUser: user.adminUser,
+            userName: user.userName
+        };
+        const token = jwt.sign(payload, secret, { expiresIn: '1h' });
+        res.json({loggedIn: true,adminUser:user.adminUser,userId:user._id, jwt:token});
     } else {
         res.json({loggedIn: false});
     }
-})
+});
 
 router.get('/', async (req,res) => {
     const users = await User.find();

@@ -7,11 +7,13 @@ const service = {
             fetch('/api/users/login/'+userName+'/'+password)
             .then(res => res.json())
             .then(data =>{
+                console.log(data)
                 if(data.loggedIn){
                     localStorage.setItem('logedUser', JSON.stringify({loggedIn:data.loggedIn,
                         adminUser:data.adminUser,
                         userId:data.userId,
-                        userName:userName
+                        userName:userName,
+                        jwt: data.jwt
                     }))
                 } else{
                     localStorage.removeItem('logedUser')
