@@ -50,6 +50,12 @@ const service = {
     
     logout : () => {
         localStorage.removeItem('logedUser')
+    },
+
+    getJWT : () => {
+        var getLogged = JSON.parse(localStorage.getItem('logedUser'));
+
+        return getLogged.jwt;
     }
 }
 

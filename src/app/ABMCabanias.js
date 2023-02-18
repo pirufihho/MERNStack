@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import userService from '../services/user.service';
 
 
 class ABMCabanias extends Component {
@@ -21,7 +21,8 @@ class ABMCabanias extends Component {
                 description: '',
                 id: ''
             },
-            toggleFilters: false
+            toggleFilters: false,
+            jwt: userService.getJWT()
         }
 
         this.addTask = this.addTask.bind(this);
@@ -70,12 +71,13 @@ class ABMCabanias extends Component {
             headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json',
+              Authorization: `${this.state.jwt}`, // Pass the JWT token as an authorization header
             },
           });
           data = await response.json();
         } catch (err) {
           console.log(err);
-          M.toast({ html: err});
+          M.toast({ html: err });
           return;
         }
       
@@ -83,6 +85,7 @@ class ABMCabanias extends Component {
         this.clearFields();
         this.fetchCabanias();
       }
+      
       
       
 
@@ -130,6 +133,7 @@ class ABMCabanias extends Component {
               headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                Authorization: `${this.state.jwt}`, // Pass the JWT token as an authorization header
               },
             });
             const data = await res.json();
