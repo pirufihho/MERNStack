@@ -11,7 +11,8 @@ class CabaniasList extends Component {
             provincies: [],
             cities: [],
             selectedProvince: '',
-            selectedCity: ''
+            selectedCity: '',
+            adminUser: service.isAdminUser()
         }
 
         this.handleChangeFilters = this.handleChangeFilters.bind(this);
@@ -149,7 +150,7 @@ class CabaniasList extends Component {
                     this.state.cabanias.map(c => {
                         return (
                             <RenderCabania key={c._id} cabania={c} saveFavorite={this.saveFavorite} 
-                            showDelete={false} showFavorite={true} />
+                            showDelete={false} showFavorite={this.state.adminUser} />
                         )
                     })
                 }
