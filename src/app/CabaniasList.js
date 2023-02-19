@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import service from '../services/user.service';
+import userService from '../services/user.service';
 import RenderCabania from './RenderCabania';
 
 class CabaniasList extends Component {
@@ -12,13 +12,16 @@ class CabaniasList extends Component {
             cities: [],
             selectedProvince: '',
             selectedCity: '',
-            adminUser: service.isAdminUser()
+            adminUser: userService.isAdminUser(),
+            jwt: userService.getJWT()
         }
 
         this.handleChangeFilters = this.handleChangeFilters.bind(this);
     }
 
     componentDidMount() {
+        console.log(this.state.jwt)
+        this.setState({jwt: userService.getJWT()})
         this.fetchCabanias();
     }
 
@@ -80,19 +83,22 @@ class CabaniasList extends Component {
     }
 
     async saveFavorite(_data) {
+        console.log(this.state)
+        
         let response;
         let data;
         let method ='POST';
         let url = '/api/favorites';
         let headers ={
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: userService.getJWT(),
         }
 
         try {
             response = await fetch(url, {
                 method: method,
-                body: JSON.stringify({ userId: service.getUserId(), cabaniaId: _data._id }),
+                body: JSON.stringify({ userId: userService.getUserId(), cabaniaId: _data._id }),
                 headers: headers
             })
 

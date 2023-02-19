@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Favorite = require('../models/favorite')
+const secret = 'secret-key';
+const jwt = require('jsonwebtoken');
 
 router.get('/byId/:userId/', async (req,res) => {
     const favorites = await Favorite.where({userId: req.params.userId}).find();
@@ -14,6 +16,12 @@ router.get('/byId/:userId/', async (req,res) => {
 
 router.post('/', async (req,res) => {
     const {userId,cabaniaId} = req.body
+    const token = req.header('Authorization');
+    if (!token) {
+      return res.status(401).json({ message: 'Bearer empty' });
+    }
+try{
+    const decoded = jwt.verify(token, secret);
 
     var fav = await Favorite.where({userId:userId,cabaniaId:cabaniaId}).findOne();
     if(fav){
@@ -26,6 +34,10 @@ router.post('/', async (req,res) => {
         await favorite.save();
         res.json({status:'Favorite saved'});
     }
+} catch (err) {
+    res.status(401).json({ message: 'Unauthorized' + err });
+  }
+
 })
 
 

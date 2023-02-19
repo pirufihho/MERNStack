@@ -55,7 +55,11 @@ const service = {
     getJWT : () => {
         var getLogged = JSON.parse(localStorage.getItem('logedUser'));
 
-        return getLogged.jwt;
+        if(getLogged && getLogged.jwt){
+            return getLogged.jwt
+        } 
+
+        return null
     }
 }
 

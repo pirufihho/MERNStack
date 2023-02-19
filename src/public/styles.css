@@ -41,3 +41,8 @@ li {
 .select{
     display: block;
 }
+
+#menu > li:last-child
+{
+    float:right;
+}

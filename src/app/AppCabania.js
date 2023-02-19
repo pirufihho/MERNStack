@@ -29,14 +29,14 @@ function AppCabania() {
   }, []);
 
   function applyWidthUser(ref) {
-    let navBarWidth = document.getElementById("navBar").offsetWidth;
+    // let navBarWidth = document.getElementById("navBar").offsetWidth;
 
-    //set margin of profile and login buttons
-    if(ref.id=="profile"){
-      ref.style.setProperty('margin-left', `${navBarWidth - (navBarWidth * 0.2)}px`);
-    } else{
-      ref.style.setProperty('margin-left', `${navBarWidth - (navBarWidth * 0.1)}px`);
-    }
+    // //set margin of profile and login buttons
+    // if(ref.id=="profile"){
+    //   ref.style.setProperty('margin-left', `${navBarWidth - (navBarWidth * 0.2)}px`);
+    // } else{
+    //   ref.style.setProperty('margin-left', `${navBarWidth - (navBarWidth * 0.1)}px`);
+    // }
     
   }
 
@@ -55,7 +55,7 @@ function AppCabania() {
   return (
     <Router>
       <div id="navBar" className="nav-wrapper black navWrapperHeight">
-        <ul className="left hide-on-med-and-down">
+        <ul id="menu" className="left hide-on-med-and-down">
           <li className='style'>
             <Link to="/">Home</Link>
           </li>
