@@ -17,6 +17,7 @@ function Favorites() {
     const [userId, setUserId] = useState(service.getUserId);
     const [favorites, setFavorites] = useState([]);
     const [cabanias, setCabanias] = useState([]);
+    const [jwt, setJwt] = useState(service.getJWT)
     const [_, forceUpdate] = useReducer((x) => x + 1, 0);
 
 
@@ -58,7 +59,8 @@ function Favorites() {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization: jwt,
                 }
             })
                 .then(res => res.json())

@@ -22,12 +22,15 @@ class ABMCabanias extends Component {
                 id: ''
             },
             toggleFilters: false,
-            jwt: userService.getJWT()
+            jwt: userService.getJWT(),
+            togglePanel: false
         }
 
         this.addTask = this.addTask.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeFilters = this.handleChangeFilters.bind(this);
+        this.clearFields = this.clearFields.bind(this);
+        this.create = this.create.bind(this);
     }
 
     componentDidMount() {
@@ -46,6 +49,11 @@ class ABMCabanias extends Component {
             province: '',
             city: ''
         })
+    }
+
+    create(){
+this.clearFields()
+this.setState({togglePanel: true})
     }
 
     async addTask(e) {
@@ -76,6 +84,7 @@ class ABMCabanias extends Component {
             },
           });
           data = await response.json();
+          this.setState({togglePanel: false})
         } catch (err) {
           console.log(err);
           M.toast({ html: err });
@@ -149,6 +158,7 @@ class ABMCabanias extends Component {
       
 
       async editCabania(id) {
+        this.setState({togglePanel: true})
         try {
           const res = await fetch(`/api/cabanias/${id}`);
           const data = await res.json();
@@ -163,6 +173,7 @@ class ABMCabanias extends Component {
             province: data.province ?? '',
             city: data.city ?? '',
           });
+          
         } catch (error) {
           console.error(error);
         }
@@ -203,7 +214,9 @@ class ABMCabanias extends Component {
             <div>
                 <div className='container' style={{ marginTop: '80px' }}>
                     <div className='row'>
-                        <div className='col s5'>
+                    <button className='btn light-blue darken-4' onClick={this.create}><i className='material-icons'>add
+                                                            </i></button>
+                        {this.state.togglePanel && <div className='col s5'>
                             <div className='card'>
                                 <div className='card-content'>
                                     <form onSubmit={this.addTask}>
@@ -249,7 +262,7 @@ class ABMCabanias extends Component {
                                     </form>
                                 </div>
                             </div>
-                        </div>
+                        </div>}
                         <div className='col s7'>
 
                             <div className='card'>

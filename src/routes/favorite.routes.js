@@ -14,15 +14,9 @@ router.get('/byId/:userId/', async (req,res) => {
 })
 
 
-router.post('/', async (req,res) => {
+router.post('/',authenticateToken, async (req,res) => {
     const {userId,cabaniaId} = req.body
-    const token = req.header('Authorization');
-    if (!token) {
-      return res.status(401).json({ message: 'Bearer empty' });
-    }
 try{
-    const decoded = jwt.verify(token, secret);
-
     var fav = await Favorite.where({userId:userId,cabaniaId:cabaniaId}).findOne();
     if(fav){
         res.json({status:'Already exists'})
@@ -35,16 +29,38 @@ try{
         res.json({status:'Favorite saved'});
     }
 } catch (err) {
-    res.status(401).json({ message: 'Unauthorized' + err });
+    res.status(500).json({ message: 'Internal server error' + err });
   }
 
 })
 
+router.delete('/:id', authenticateToken, async (req, res) => {
+  try {
+    const result = await Favorite.findByIdAndRemove(req.params.id);
+    if (!result) {
+      return res.status(404).json({ message: 'Favorite not found' });
+    }
+    res.json({ status: 'Favorite removed' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal server error' + err });
+  }
+});
 
-router.delete('/:id', async (req,res) => {
-    await Favorite.findByIdAndRemove(req.params.id);
-    res.json({status: 'Favorite removed'});
-})
+function authenticateToken(req, res, next) {
+  const token = req.header('Authorization');
+  if (!token) {
+    return res.status(401).json({ message: 'Authorization token missing' });
+  }
+  try {
+    const decoded = jwt.verify(token, secret);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    console.error(err);
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+}
 
 
 module.exports = router;
